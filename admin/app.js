@@ -308,7 +308,11 @@
     const headers = { 'content-type': 'application/json', ...(opts.headers || {}) };
     const res = await fetch(path, { ...opts, headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `请求失败(${res.status})`);
+    if (!res.ok) {
+      const err = new Error(data.error || `请求失败(${res.status})`);
+      err.status = res.status; // 记录 HTTP 状态，便于区分“需要 PIN”与其他错误
+      throw err;
+    }
     return data;
   }
 
@@ -544,24 +548,45 @@
   }
 
   /* ---------- 加载初始化 ---------- */
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   async function init2() {
-    try {
-      const r = await api('/api/state');
-      S = buildS(r);
-      startApp();
-      return;
-    } catch (e) { /* 需要 PIN */ }
-    // PIN 门
-    const pinGate = $('#pin-gate');
-    $('#pin-gate').classList.remove('hidden');
-    $('#pin-enter').onclick = async () => {
-      const v = $('#pin-input').value;
+    let lastErr = null;
+    // 第一次进入可能服务器还在启动，先重试几次；只有服务端明确要 PIN 才弹锁
+    for (let i = 0; i < 4; i++) {
       try {
-        const r = await api('/api/state', { headers: { 'x-admin-pin': v } });
-        S = buildS(r); startApp();
-      } catch (err) { $('#pin-error').classList.remove('hidden'); }
-    };
-    $('#pin-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#pin-enter').click(); });
+        const r = await api('/api/state');
+        S = buildS(r);
+        startApp();
+        return;
+      } catch (e) {
+        lastErr = e;
+        if (e.status === 401) break;      // 真正需要 PIN，直接展示锁
+        await sleep(400 + i * 300);        // 服务器可能还在启动，稍等重试
+      }
+    }
+    showGate(!!(lastErr && lastErr.status === 401));
+  }
+  // 只有服务端明确返回 401（设了 PIN）才显示 PIN 输入框；否则给个“重试”提示
+  function showGate(needPin) {
+    $('#pin-gate').classList.remove('hidden');
+    $('#pin-form').classList.toggle('hidden', !needPin);
+    $('#pin-fallback').classList.toggle('hidden', needPin);
+    if (needPin) {
+      $('#pin-title').textContent = '输入访问 PIN';
+      $('#pin-sub').textContent = '这是一个只有你能打开的本机编辑入口。';
+      $('#pin-enter').onclick = async () => {
+        const v = $('#pin-input').value;
+        try {
+          const r = await api('/api/state', { headers: { 'x-admin-pin': v } });
+          S = buildS(r); startApp();
+        } catch (err) { $('#pin-error').classList.remove('hidden'); }
+      };
+      $('#pin-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#pin-enter').click(); });
+    } else {
+      $('#pin-title').textContent = '编辑器正在启动';
+      $('#pin-sub').textContent = '这个本机编辑入口不需要 PIN。稍等一下，或点“重试”。';
+      $('#btn-retry').onclick = init2;
+    }
   }
   function buildS(r) {
     const s = {

@@ -9,11 +9,19 @@
 <body>
   <div id="pin-gate" class="pin-gate hidden">
     <div class="pin-box">
-      <h1>输入访问 PIN</h1>
-      <p>这是一个只有你能打开的本机编辑入口。</p>
-      <input id="pin-input" type="password" placeholder="PIN" autocomplete="off">
-      <button id="pin-enter">进入</button>
-      <div id="pin-error" class="error-text hidden">PIN 不正确</div>
+      <h1 id="pin-title">输入访问 PIN</h1>
+      <p id="pin-sub">这是一个只有你能打开的本机编辑入口。</p>
+      <!-- 真正需要 PIN 时才显示输入区 -->
+      <div id="pin-form">
+        <input id="pin-input" type="password" placeholder="PIN" autocomplete="off">
+        <button id="pin-enter">进入</button>
+        <div id="pin-error" class="error-text hidden">PIN 不正确</div>
+      </div>
+      <!-- 没设 PIN / 服务器还没就绪时的友好提示 -->
+      <div id="pin-fallback" class="hidden">
+        <div id="pin-fallback-msg" class="error-text">编辑器还在启动，稍等一下。</div>
+        <button id="btn-retry">重试</button>
+      </div>
     </div>
   </div>
 
