@@ -1,0 +1,103 @@
+---
+interface Props {
+  kicker?: string;
+  title?: string;
+  lede?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+const {
+  kicker = '一起定义下一个极限',
+  title = '让未知，成为你的下一款作品',
+  lede = '无论是商务合作、媒体交流，还是想了解我们的开发方式，都欢迎与我们聊聊。',
+  primaryLabel = '联系 / 合作',
+  primaryHref = '/contact',
+  secondaryLabel = '查看作品',
+  secondaryHref = '/works',
+} = Astro.props;
+---
+
+<section class="cta grid-lines">
+  <div class="container">
+    <div class="cta-box" data-reveal>
+      {kicker && <span class="kicker">{kicker}</span>}
+      <h2 class="cta-title display--cn">{title}</h2>
+      <p class="cta-lede muted">{lede}</p>
+      <div class="cta-actions">
+        <a class="btn btn--solid" href={primaryHref}>{primaryLabel}</a>
+        <a class="btn btn--ghost" href={secondaryHref}>{secondaryLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: var(--space-section);
+  }
+
+  .cta-box {
+    position: relative;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(90% 120% at 20% 0%, rgba(230, 0, 18, 0.12), transparent 55%),
+      var(--c-surface);
+    padding: clamp(2.5rem, 6vw, 5rem);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .cta-box::before,
+  .cta-box::after {
+    content: '';
+    position: absolute;
+    background: var(--c-accent);
+    opacity: 0.35;
+  }
+
+  .cta-box::before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+  }
+
+  .cta-box::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+  }
+
+  .cta-box .kicker::before {
+    display: none;
+  }
+  .cta-box .kicker {
+    justify-content: center;
+  }
+
+  .cta-title {
+    font-size: var(--fs-h1);
+    margin-top: 1rem;
+  }
+
+  .cta-lede {
+    max-width: 34rem;
+    margin: 1rem auto 0;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  .cta-actions .btn--ghost {
+    background: rgba(11, 11, 13, 0.4);
+  }
+</style>

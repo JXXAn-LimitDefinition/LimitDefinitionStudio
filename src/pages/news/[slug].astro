@@ -1,0 +1,132 @@
+---
+import type { NewsEntry } from '../../lib/content';
+import { getNews } from '../../lib/content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Cta from '../../components/Cta.astro';
+
+export function getStaticPaths() {
+  return getNews().map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: NewsEntry };
+const Content = entry.Component as any;
+
+const { title, description, pubDate, tags } = entry.data;
+const fmt = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+const dateStr = fmt.format(pubDate);
+---
+
+<BaseLayout title={`${title} — Limit Definition Studio`} description={description} type="article">
+  <article>
+    <header class="post-header">
+      <div class="container">
+        <nav class="breadcrumb small-caps" aria-label="面包屑">
+          <a href="/news">动态</a>
+          <span aria-hidden="true">/</span>
+          <span>{title}</span>
+        </nav>
+        <div class="post-head" data-reveal>
+          <h1 class="display--cn post-title">{title}</h1>
+          <div class="post-meta">
+            <time class="small-caps" datetime={pubDate.toISOString()}>{dateStr}</time>
+            {tags.length > 0 && <span class="small-caps post-tag">{tags[0]}</span>}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container post-body">
+      <div class="post-content" data-reveal>
+        <Content />
+        <div class="post-back">
+          <a class="btn btn--ghost" href="/news">← 返回动态</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .post-header {
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem);
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+
+  .breadcrumb {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    margin-bottom: 2rem;
+  }
+  .breadcrumb a:hover {
+    color: var(--c-accent);
+  }
+
+  .post-head {
+    max-width: 46rem;
+  }
+
+  .post-title {
+    font-size: var(--fs-h1);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .post-tag {
+    color: var(--c-accent);
+  }
+
+  .post-body {
+    padding-block: var(--space-section);
+  }
+
+  .post-content {
+    max-width: 68ch;
+  }
+
+  .post-content :global(h2) {
+    font-family: var(--font-display-cn);
+    font-size: 1.7rem;
+    margin: 2.2rem 0 0.85rem;
+  }
+
+  .post-content :global(p) {
+    color: var(--c-text-soft);
+    margin: 0 0 1.1rem;
+  }
+
+  .post-content :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 0.2rem 0 0.2rem 1.25rem;
+    border-left: 2px solid var(--c-accent);
+    color: var(--c-text);
+    font-family: var(--font-display-cn);
+    font-size: 1.1rem;
+  }
+
+  .post-content :global(code) {
+    background: var(--c-surface);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--c-accent);
+  }
+
+  .post-back {
+    margin-top: 3rem;
+  }
+</style>

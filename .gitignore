@@ -1,0 +1,29 @@
+# build output
+dist/
+# astro generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# pnpm workspace store
+.pnpm-store/
+
+# local pnpm config (sandbox workaround; machine-specific absolute path)
+.npmrc
+
+# project meta / env
+.env
+.env.*
+
+# dsh project requirements (local only, not shipped)
+.dsh/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os
+.DS_Store
+Thumbs.db

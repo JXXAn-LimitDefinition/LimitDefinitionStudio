@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import TeamCard from '../components/TeamCard.astro';
+import Cta from '../components/Cta.astro';
+
+const team = [
+  { name: '林屿', role: 'Founder / Director', bio: '负责创意方向与叙事，相信"规则越少，手感越锐利"。', avatar: '' },
+  { name: '赤砚', role: 'Art / Tech Artist', bio: '黑白秘境的美术奠基者，用克制的色彩讲"极限"。', avatar: '' },
+  { name: '万衡', role: 'Lead Programmer', bio: '把每个玩法打磨到刀刃般的响应与手感。', avatar: '' },
+  { name: '沉白', role: 'Game Designer', bio: '专注规则与系统设计，喜欢把复杂收敛为简洁。', avatar: '' },
+];
+---
+
+<BaseLayout title="团队 — Limit Definition Studio" description="极限定义工作室的核心成员。">
+  <section class="section">
+    <div class="container">
+      <SectionHeading kicker="The Studio" title="创作团队" eTitle="The people behind the edge" lead="一支把"极限"当作日常的小团队。" />
+
+      <div class="grid">
+        {team.map((m) => <TeamCard {...m} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <SectionHeading kicker="Join Us" title="加入我们" lead="如果你也相信"定义极限"，我们很乐意认识你。" />
+      <div class="join card" data-reveal>
+        <p>我们始终欢迎对游戏充满热情、愿意认真打磨作品的伙伴。</p>
+        <a class="btn btn--solid" href="/contact">发送简历 / 认识我们</a>
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .join {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .join p {
+    color: var(--c-text-soft);
+    max-width: 38rem;
+  }
+
+  @media (max-width: 1000px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,236 @@
+---
+import type { WorkEntry } from '../../lib/content';
+import { getWorks } from '../../lib/content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Cta from '../../components/Cta.astro';
+
+export function getStaticPaths() {
+  return getWorks().map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: WorkEntry };
+const Content = entry.Component as any;
+
+const { title, description, tags, platform, role, year, status, links } = entry.data;
+
+const statusLabel: Record<string, string> = {
+  released: '已发布',
+  'in-development': '开发中',
+  prototype: '原型',
+};
+---
+
+<BaseLayout title={`${title} — Limit Definition Studio`} description={description}>
+  <article>
+    <header class="project-hero">
+      <div class="container">
+        <nav class="breadcrumb small-caps" aria-label="面包屑">
+          <a href="/works">作品</a>
+          <span aria-hidden="true">/</span>
+          <span>{title}</span>
+        </nav>
+        <div class="project-head">
+          <div class="project-head-main" data-reveal>
+            {status && <span class="badge">{statusLabel[status]}</span>}
+            <h1 class="display--cn project-title">{title}</h1>
+            <p class="muted project-lede">{description}</p>
+            <div class="project-meta">
+              {year && <span class="small-caps">年份 · {year}</span>}
+              {role && <span class="small-caps">担当 · {role}</span>}
+            </div>
+          </div>
+          {links.length > 0 && (
+            <div class="project-links" data-reveal>
+              {links.map((l) => (
+                <a class="btn btn--solid" href={l.url} target="_blank" rel="noopener noreferrer">
+                  {l.label} ↗
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <div class="container project-body">
+      <div class="project-content" data-reveal>
+        <Content />
+      </div>
+
+      <aside class="project-aside">
+        <h2 class="small-caps aside-title">项目信息</h2>
+        <dl class="side-meta">
+          {platform.length > 0 && (
+            <div><dt class="small-caps">平台</dt><dd>{platform.join(' · ')}</dd></div>
+          )}
+          {tags.length > 0 && (
+            <div><dt class="small-caps">标签</dt><dd>{tags.join(' · ')}</dd></div>
+          )}
+          {year && <div><dt class="small-caps">年份</dt><dd>{year}</dd></div>}
+        </dl>
+        <a class="btn btn--ghost" href="/works">← 返回作品</a>
+      </aside>
+    </div>
+  </article>
+
+  <Cta title="想一起定义下一个极限？" lede="有项目想法或想深入了解我们的合作方式，欢迎与我们聊聊。" />
+</BaseLayout>
+
+<style>
+  .project-hero {
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem);
+    background:
+      radial-gradient(100% 80% at 70% 0%, rgba(230, 0, 18, 0.08), transparent 55%),
+      var(--c-bg);
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+
+  .breadcrumb {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--c-accent);
+  }
+
+  .project-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .project-head-main {
+    max-width: 46rem;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 3px;
+    background: rgba(230, 0, 18, 0.16);
+    color: var(--c-accent);
+    border: 1px solid rgba(230, 0, 18, 0.4);
+    margin-bottom: 1.1rem;
+  }
+
+  .project-title {
+    font-size: var(--fs-h1);
+  }
+
+  .project-lede {
+    margin-top: 1rem;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .project-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-block: var(--space-section);
+  }
+
+  .project-content {
+    max-width: 66ch;
+  }
+
+  .project-content :global(h2) {
+    font-family: var(--font-display-cn);
+    font-size: 1.7rem;
+    margin: 2.4rem 0 0.9rem;
+  }
+
+  .project-content :global(h3) {
+    font-size: 1.2rem;
+    margin: 1.8rem 0 0.6rem;
+  }
+
+  .project-content :global(p) {
+    color: var(--c-text-soft);
+    margin: 0 0 1.1rem;
+  }
+
+  .project-content :global(ul) {
+    margin: 0 0 1.1rem;
+    padding-left: 1.2rem;
+    list-style: disc;
+    color: var(--c-text-soft);
+  }
+
+  .project-content :global(blockquote) {
+    margin: 1.6rem 0;
+    padding: 0.2rem 0 0.2rem 1.25rem;
+    border-left: 2px solid var(--c-accent);
+    color: var(--c-text);
+    font-family: var(--font-display-cn);
+    font-size: 1.1rem;
+  }
+
+  .project-aside {
+    align-self: start;
+    border: 1px solid var(--c-border-soft);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    padding: 1.6rem;
+    position: sticky;
+    top: 92px;
+  }
+
+  .aside-title {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .side-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .side-meta dt {
+    font-size: 0.7rem;
+    color: var(--c-text-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .side-meta dd {
+    color: var(--c-text-soft);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 860px) {
+    .project-body {
+      grid-template-columns: 1fr;
+    }
+    .project-aside {
+      position: static;
+    }
+  }
+</style>

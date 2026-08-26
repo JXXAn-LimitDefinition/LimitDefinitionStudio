@@ -1,0 +1,140 @@
+---
+const year = new Date().getFullYear();
+
+const nav = [
+  { href: '/works', label: '作品' },
+  { href: '/about', label: '关于' },
+  { href: '/team', label: '团队' },
+  { href: '/news', label: '动态' },
+  { href: '/contact', label: '联系' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="/logo.jpg" alt="Limit Definition Studio logo" class="footer-logo" />
+        <p class="footer-philosophy display--cn">超越未知，定义极限</p>
+        <p class="muted footer-note">极限定义游戏工作室 — Limit Definition Studio</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="页脚导航">
+        <span class="kicker footer-kicker">导航</span>
+        <ul>
+          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="footer-contact">
+        <span class="kicker footer-kicker">联系</span>
+        <ul>
+          <li><a href="mailto:business@limitdefinition.studio">business@limitdefinition.studio</a></li>
+          <li><span class="muted">商务 / 媒体合作</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="small-caps footer-copy">
+        &copy; {year} Limit Definition Studio
+      </p>
+      <button class="footer-top-link small-caps" data-scroll-top>回到顶部 ↑</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector('[data-scroll-top]')?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--c-border-soft);
+    background: var(--c-bg-2);
+    padding-block: clamp(3rem, 6vw, 5rem) 2.25rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-logo {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-philosophy {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    color: var(--c-text);
+  }
+
+  .footer-note {
+    margin-top: 0.5rem;
+    font-size: var(--fs-small);
+  }
+
+  .footer-kicker {
+    font-size: 0.72rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-nav ul,
+  .footer-contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-nav a,
+  .footer-contact a {
+    color: var(--c-text-soft);
+    transition: color var(--speed) var(--ease-out);
+  }
+
+  .footer-nav a:hover,
+  .footer-contact a:hover {
+    color: var(--c-accent);
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--c-border-soft);
+  }
+
+  .footer-copy,
+  .footer-top-link {
+    font-size: 0.74rem;
+    color: var(--c-text-muted);
+  }
+
+  .footer-top-link {
+    transition: color var(--speed) var(--ease-out);
+  }
+  .footer-top-link:hover {
+    color: var(--c-accent);
+  }
+
+  @media (max-width: 720px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

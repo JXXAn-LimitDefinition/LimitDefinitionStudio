@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+import TeamCard from '../components/TeamCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Cta from '../components/Cta.astro';
+import { getWorks, getNews } from '../lib/content';
+
+const featured = getWorks().filter((w) => w.data.featured).slice(0, 3);
+const latestNews = getNews().slice(0, 3);
+
+const team = [
+  { name: '林屿', role: 'Founder / Director', bio: '负责创意方向与叙事，相信"规则越少，手感越锐利"。', avatar: '' },
+  { name: '赤砚', role: 'Art / Tech Artist', bio: '黑白秘境的美术奠基者，用克制的色彩讲"极限"。', avatar: '' },
+  { name: '万衡', role: 'Lead Programmer', bio: '把每个玩法打磨到刀刃般的响应与手感。', avatar: '' },
+];
+---
+
+<BaseLayout title="Limit Definition Studio — 超越未知，定义极限">
+  <Hero />
+
+  <!-- Featured works -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+        <SectionHeading kicker="Representative Works" title="代表作品" eTitle="Shaping the edge" />
+        <a class="btn btn--ghost" href="/works">全部作品</a>
+      </div>
+      <div class="grid">
+        {featured.map((p) => <ProjectCard title={p.data.title} description={p.data.description} href={`/works/${p.id}/`} cover={p.data.cover} tags={p.data.tags} status={p.data.status} year={p.data.year} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Positioning / capability -->
+  <section class="section section--tight">
+    <div class="container positioning">
+      <div class="positioning-copy" data-reveal>
+        <span class="kicker">What we do</span>
+        <h2 class="display--cn positioning-title">不止做游戏，<br />我们在定义边界。</h2>
+      </div>
+      <ul class="positioning-list">
+        {[
+          ['独立性', '以工作室内核，做打动自己的作品。'],
+          ['手质感', '把每一次交互都当作作品的一部分打磨。'],
+          ['合作开发', '与发行、平台、同行深度共建，也承接定制。'],
+        ].map(([t, d], i) => (
+          <li class="positioning-item" data-reveal>
+            <span class="positioning-index small-caps">0{i + 1}</span>
+            <div>
+              <h3 class="display--cn">{t}</h3>
+              <p class="muted">{d}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Team preview -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+        <SectionHeading kicker="The Studio" title="创作团队" />
+        <a class="btn btn--ghost" href="/team">认识团队</a>
+      </div>
+      <div class="grid grid--3">
+        {team.map((m) => <TeamCard {...m} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+        <SectionHeading kicker="Dev Log" title="最新动态" />
+        <a class="btn btn--ghost" href="/news">全部动态</a>
+      </div>
+      <div class="grid grid--3">
+        {latestNews.map((n) => (
+          <NewsCard title={n.data.title} description={n.data.description} href={`/news/${n.id}/`} date={n.data.pubDate} cover={n.data.cover} tags={n.data.tags} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .positioning {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .positioning-title {
+    font-size: var(--fs-h1);
+    line-height: 1.15;
+  }
+
+  .positioning-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .positioning-item {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--c-border-soft);
+  }
+
+  .positioning-item:last-child {
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+
+  .positioning-index {
+    font-size: 0.8rem;
+    color: var(--c-accent);
+    padding-top: 0.2rem;
+  }
+
+  .positioning-item h3 {
+    font-size: 1.25rem;
+  }
+
+  .positioning-item p {
+    margin-top: 0.35rem;
+    font-size: var(--fs-small);
+  }
+
+  @media (max-width: 860px) {
+    .grid,
+    .grid--3 {
+      grid-template-columns: 1fr;
+    }
+    .positioning {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 861px) and (max-width: 1080px) {
+    .grid,
+    .grid--3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

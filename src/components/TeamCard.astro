@@ -1,0 +1,97 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  avatar?: string;
+  links?: { label: string; url: string }[];
+}
+const { name, role, bio, avatar, links = [] } = Astro.props;
+---
+
+<article class="team-card" data-reveal>
+  <div class="team-avatar">
+    {avatar ? (
+      <img src={avatar} alt={`${name} 头像`} loading="lazy" decoding="async" />
+    ) : (
+      <div class="team-avatar-fallback display">{name.charAt(0)}</div>
+    )}
+  </div>
+  <h3 class="team-name display--cn">{name}</h3>
+  <p class="team-role small-caps">{role}</p>
+  <p class="team-bio muted">{bio}</p>
+  {links.length > 0 && (
+    <ul class="team-links">
+      {links.map((l) => (
+        <li><a href={l.url} target="_blank" rel="noopener noreferrer">{l.label} ↗</a></li>
+      ))}
+    </ul>
+  )}
+</article>
+
+<style>
+  .team-card {
+    border: 1px solid var(--c-border-soft);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    padding: 1.75rem;
+    transition: border-color var(--speed) var(--ease-out), transform var(--speed) var(--ease-out);
+  }
+
+  .team-card:hover {
+    border-color: var(--c-accent);
+    transform: translateY(-4px);
+  }
+
+  .team-avatar {
+    width: 74px;
+    height: 74px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--c-bg-2);
+    margin-bottom: 1.1rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-avatar-fallback {
+    font-size: 1.8rem;
+    color: var(--c-accent);
+  }
+
+  .team-name {
+    font-size: var(--fs-h3);
+  }
+
+  .team-role {
+    margin-top: 0.3rem;
+    font-size: 0.7rem;
+    color: var(--c-accent);
+  }
+
+  .team-bio {
+    margin-top: 0.8rem;
+    font-size: var(--fs-small);
+  }
+
+  .team-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .team-links a {
+    font-size: 0.74rem;
+    color: var(--c-text-soft);
+  }
+  .team-links a:hover {
+    color: var(--c-accent);
+  }
+</style>

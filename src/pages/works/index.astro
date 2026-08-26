@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Cta from '../../components/Cta.astro';
+import { getWorks } from '../../lib/content';
+
+const works = getWorks();
+---
+
+<BaseLayout title="作品 — Limit Definition Studio" description="极限定义工作室的代表作品与进行中的项目。">
+  <section class="section">
+    <div class="container">
+      <SectionHeading kicker="Works" title="全部作品" eTitle="Shaping the edge" lead="透过我们的项目，看我们如何把未知，定义成极限。" />
+
+      <div class="grid">
+        {works.map((p) => <ProjectCard title={p.data.title} description={p.data.description} href={`/works/${p.id}/`} cover={p.data.cover} tags={p.data.tags} status={p.data.status} year={p.data.year} />)}
+      </div>
+    </div>
+  </section>
+
+  <Cta title="想一起做点什么？" lede="如果你有项目想持续推进，或想了解我们的开发方式，欢迎聊聊。" primaryLabel="联系 / 合作" />
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 861px) and (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

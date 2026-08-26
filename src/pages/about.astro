@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Cta from '../components/Cta.astro';
+---
+
+<BaseLayout title="关于 — Limit Definition Studio" description="极限定义工作室的理念、历程与能力范围。">
+  <section class="hero grid-lines">
+    <div class="container">
+      <SectionHeading kicker="About" title="关于我们" eTitle="Beyond the unknown" />
+      <div class="about-grid">
+        <div class="about-lead" data-reveal>
+          <p class="display--cn about-slogan">超越未知，<br />定义极限。</p>
+          <p class="about-copy">
+            极限定义工作室（Limit Definition Studio）是一支以<b>探索游戏表达边界</b>为方向的小而精的创作团队。
+            我们不追求堆砌，而是把每一个想法打磨到足够锋利——像我们的标志那样，在一道贯穿的红线里，定义作品的极限。
+          </p>
+        </div>
+        <div class="about-mission" data-reveal>
+          <h2 class="small-caps mission-title">品牌理念</h2>
+          <p class="mission-text">
+            未知不是阻碍，而是原材料。我们做游戏的起点，永远是某个尚未被定义的边界——然后，用作品去定义它。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading kicker="Capabilities" title="能力范围" />
+      <div class="cap-grid">
+        {[
+          ['游戏研发', '从概念、原型到完整制作，独立完成玩法、美术与叙事。', '01'],
+          ['合作开发', '与发行、平台、工作室联合开发，共同推进项目。', '02'],
+          ['定制 / 委托', '基于核心能力承接定制化玩法与内容开发。', '03'],
+        ].map(([title, desc, idx]) => (
+          <div class="cap-item" data-reveal>
+            <span class="cap-index small-caps">{idx}</span>
+            <h3 class="display--cn">{title}</h3>
+            <p class="muted">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="timeline">
+        <h2 class="small-caps timeline-title">历程</h2>
+        <ul>
+          {[
+            ['2025', '工作室成立，确立"超越未知，定义极限"的创作方向。'],
+            ['2025', '首款作品《裂隙迷航》正式发布。'],
+            ['2026', '启动新项目《零界 Zero Boundary》，探索合作玩法。'],
+          ].map(([y, t]) => (
+            <li class="timeline-item" data-reveal>
+              <span class="timeline-year small-caps">{y}</span>
+              <p>{t}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-section);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .about-slogan {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.08;
+    margin-bottom: 1.4rem;
+  }
+
+  .about-copy {
+    max-width: 44ch;
+    color: var(--c-text-soft);
+  }
+
+  .about-copy b {
+    color: var(--c-text);
+  }
+
+  .about-mission {
+    border-left: 2px solid var(--c-accent);
+    padding: 0.4rem 0 0.4rem 1.5rem;
+  }
+
+  .mission-title {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .mission-text {
+    font-family: var(--font-display-cn);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--c-text);
+  }
+
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cap-item {
+    border: 1px solid var(--c-border-soft);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    padding: 1.75rem;
+  }
+
+  .cap-index {
+    font-size: 0.8rem;
+    color: var(--c-accent);
+  }
+
+  .cap-item h3 {
+    font-size: 1.3rem;
+    margin: 0.7rem 0 0.5rem;
+  }
+
+  .cap-item p {
+    font-size: var(--fs-small);
+  }
+
+  .timeline {
+    max-width: 46rem;
+  }
+
+  .timeline-title {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--c-border-soft);
+  }
+
+  .timeline-year {
+    color: var(--c-accent);
+    font-size: 0.8rem;
+    padding-top: 0.2rem;
+  }
+
+  .timeline-item p {
+    color: var(--c-text-soft);
+  }
+
+  @media (max-width: 860px) {
+    .about-grid,
+    .cap-grid {
+      grid-template-columns: 1fr;
+    }
+    .timeline-item {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>

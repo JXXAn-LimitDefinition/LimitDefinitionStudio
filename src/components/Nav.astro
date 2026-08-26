@@ -1,0 +1,216 @@
+---
+const links = [
+  { href: '/', label: '首页' },
+  { href: '/works', label: '作品' },
+  { href: '/about', label: '关于' },
+  { href: '/team', label: '团队' },
+  { href: '/news', label: '动态' },
+  { href: '/contact', label: '联系' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="回到首页">
+      <img src="/logo.jpg" alt="Limit Definition Studio logo" class="brand-mark" />
+      <span class="brand-name small-caps">Limit Definition</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="主导航">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn btn--solid header-cta" href="/contact">
+      商务合作
+    </a>
+
+    <button class="nav-toggle" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" aria-label="移动端导航" hidden>
+    <ul>
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]}>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="btn btn--solid" href="/contact">商务合作</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const mobile = document.querySelector('.nav-mobile');
+  const links = document.querySelectorAll('.nav-mobile a');
+
+  toggle?.addEventListener('click', () => {
+    const open = mobile?.toggleAttribute('hidden');
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.classList.toggle('is-open', !open);
+  });
+
+  links.forEach((a) =>
+    a.addEventListener('click', () => {
+      mobile?.setAttribute('hidden', '');
+      toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.classList.remove('is-open');
+    })
+  );
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 11, 13, 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--c-border-soft);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 72px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-right: auto;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .brand-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--c-text);
+  }
+
+  .nav-desktop ul {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.94rem;
+    color: var(--c-text-soft);
+    transition: color var(--speed) var(--ease-out);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.85rem;
+    right: 0.85rem;
+    bottom: 0.25rem;
+    height: 2px;
+    background: var(--c-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--speed) var(--ease-out);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--c-text);
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+  }
+
+  .nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--c-text);
+    transition: transform var(--speed) var(--ease-out), opacity var(--speed) var(--ease-out);
+  }
+
+  .nav-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-mobile {
+    border-top: 1px solid var(--c-border-soft);
+    background: var(--c-bg);
+  }
+
+  .nav-mobile ul {
+    padding: 0.5rem var(--gutter) 1.25rem;
+  }
+
+  .nav-mobile li + li {
+    border-top: 1px solid var(--c-border-soft);
+  }
+
+  .nav-mobile .nav-link {
+    display: block;
+    padding: 1rem 0;
+    font-size: 1.05rem;
+  }
+
+  .nav-mobile .btn {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 860px) {
+    .nav-desktop {
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+    .header-cta {
+      display: none;
+    }
+  }
+</style>

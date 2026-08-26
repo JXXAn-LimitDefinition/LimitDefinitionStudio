@@ -1,0 +1,55 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  eTitle?: string; // optional english/display accent
+  lead?: string;
+  align?: 'left' | 'center';
+}
+const { kicker, title, eTitle, lead, align = 'left' } = Astro.props;
+---
+
+<div class:list={['section-head', align === 'center' && 'center']} data-reveal>
+  {kicker && <span class="kicker">{kicker}</span>}
+  <h2 class="section-title display--cn">{title}</h2>
+  {eTitle && <span class="section-etitle small-caps">{eTitle}</span>}
+  {lead && <p class="section-lead muted">{lead}</p>}
+</div>
+
+<style>
+  .section-head {
+    max-width: 56rem;
+    margin-bottom: clamp(2.25rem, 5vw, 4rem);
+  }
+
+  .section-head.center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-head.center .kicker::before {
+    display: none;
+  }
+
+  .section-title {
+    font-size: var(--fs-h2);
+    margin-top: 0.85rem;
+  }
+
+  .section-etitle {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .section-lead {
+    margin-top: 1rem;
+    max-width: 46rem;
+    font-size: calc(var(--fs-body) * 0.98);
+  }
+
+  .center .section-lead {
+    margin-inline: auto;
+  }
+</style>

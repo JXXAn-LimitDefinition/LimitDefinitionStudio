@@ -1,0 +1,99 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  date: Date;
+  cover?: string;
+  tags?: string[];
+}
+const { title, description, href, date, cover, tags = [] } = Astro.props;
+
+const fmt = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+const dateStr = fmt.format(date);
+---
+
+<a class="news-card" href={href} data-reveal>
+  <div class="news-media">
+    {cover ? (
+      <img src={cover} alt={`${title} 封面`} loading="lazy" decoding="async" />
+    ) : (
+      <img src="/logo.jpg" alt="" aria-hidden="true" loading="lazy" />
+    )}
+  </div>
+  <div class="news-body">
+    <div class="news-meta small-caps">
+      <time datetime={date.toISOString()}>{dateStr}</time>
+      {tags.length > 0 && <span class="news-tag">{tags[0]}</span>}
+    </div>
+    <h3 class="news-title display--cn">{title}</h3>
+    <p class="news-desc muted">{description}</p>
+    <span class="news-more small-caps">阅读 →</span>
+  </div>
+</a>
+
+<style>
+  .news-card {
+    display: block;
+    border: 1px solid var(--c-border-soft);
+    border-radius: var(--radius-lg);
+    background: var(--c-surface);
+    overflow: hidden;
+    transition: transform var(--speed) var(--ease-out), border-color var(--speed) var(--ease-out);
+  }
+
+  .news-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-accent);
+  }
+
+  .news-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--c-bg-2);
+  }
+
+  .news-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .news-card:hover .news-media img {
+    transform: scale(1.05);
+  }
+
+  .news-body {
+    padding: 1.3rem 1.3rem 1.4rem;
+  }
+
+  .news-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.7rem;
+    color: var(--c-text-muted);
+  }
+
+  .news-tag {
+    color: var(--c-accent);
+  }
+
+  .news-title {
+    font-size: 1.2rem;
+    margin-top: 0.55rem;
+  }
+
+  .news-desc {
+    margin-top: 0.5rem;
+    font-size: var(--fs-small);
+  }
+
+  .news-more {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-size: 0.72rem;
+    color: var(--c-accent);
+  }
+</style>

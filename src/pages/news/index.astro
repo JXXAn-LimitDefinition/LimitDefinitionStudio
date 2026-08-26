@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Cta from '../../components/Cta.astro';
+import { getNews } from '../../lib/content';
+
+const news = getNews();
+---
+
+<BaseLayout title="动态 — Limit Definition Studio" description="极限定义工作室的最新动态与开发日志。">
+  <section class="section">
+    <div class="container">
+      <SectionHeading kicker="Dev Log & News" title="最新动态" eTitle="Follow the edge" lead="作品、幕后与开发日志，实时更新。" />
+
+      <div class="grid">
+        {news.map((n) => (
+          <NewsCard title={n.data.title} description={n.data.description} href={`/news/${n.id}/`} date={n.data.pubDate} cover={n.data.cover} tags={n.data.tags} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta title="想在第一时间看到我们的作品？" lede="关注社媒或加入愿望单，不错过每一个新进展。" primaryLabel="关注/预约" />
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 861px) and (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

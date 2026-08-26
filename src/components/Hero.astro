@@ -1,0 +1,175 @@
+---
+interface Props {
+  kicker?: string;
+  title?: string;
+  subtitle?: string;
+  lede?: string;
+}
+const {
+  kicker = 'Limit Definition Studio',
+  title = '超越未知，定义极限',
+  subtitle = '游戏 · 体验 · 边界',
+  lede = '极限定义游戏工作室。我们以锋利与极致的方式，探索游戏表达的边界——把每一次未知，变成下一款作品的定义。',
+} = Astro.props;
+---
+
+<section class="hero grid-lines">
+  <div class="container hero-inner">
+    <div class="hero-copy" data-reveal>
+      <span class="kicker">{kicker}</span>
+      <h1 class="hero-title display--cn">{title}</h1>
+      <p class="hero-sub display">{subtitle}</p>
+      <p class="hero-lede muted">{lede}</p>
+      <div class="hero-actions">
+        <a class="btn btn--solid" href="/works">看我们的作品</a>
+        <a class="btn btn--ghost" href="/contact">商务合作</a>
+      </div>
+      <dl class="hero-meta">
+        <div><dt class="small-caps">定位</dt><dd>游戏工作室</dd></div>
+        <div><dt class="small-caps">领域</dt><dd>自研 · 合作开发</dd></div>
+        <div><dt class="small-caps">理念</dt><dd>超越未知 · 定义极限</dd></div>
+      </dl>
+    </div>
+
+    <div class="hero-visual" data-reveal>
+      <div class="hero-mark">
+        <img src="/logo.jpg" alt="极限定义工作室图标" class="hero-logo" />
+        <span class="axis axis-x" aria-hidden="true"></span>
+        <span class="axis axis-y" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4rem, 9vw, 8rem);
+    background:
+      radial-gradient(120% 90% at 80% 10%, rgba(230, 0, 18, 0.1), transparent 55%),
+      var(--c-bg);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 60%, var(--c-bg) 100%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .hero-title {
+    font-size: var(--fs-hero);
+    margin-top: 1rem;
+    background: linear-gradient(180deg, #fff 0%, #b9b9c0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 0.9rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+    color: var(--c-accent);
+    font-weight: 500;
+  }
+
+  .hero-lede {
+    margin-top: 1.1rem;
+    max-width: 42rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.9rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2.5rem;
+    margin-top: 2.4rem;
+  }
+
+  .hero-meta > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .hero-meta dt {
+    font-size: 0.7rem;
+    color: var(--c-text-muted);
+  }
+
+  .hero-meta dd {
+    font-size: 0.95rem;
+    color: var(--c-text-soft);
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-mark {
+    position: relative;
+    width: clamp(220px, 32vw, 400px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .hero-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 40px rgba(230, 0, 18, 0.18));
+    border-radius: 14px;
+  }
+
+  .axis {
+    position: absolute;
+    background: var(--c-accent);
+    opacity: 0.65;
+  }
+
+  .axis-x {
+    left: -6%;
+    right: -6%;
+    top: 50%;
+    height: 2px;
+  }
+
+  .axis-y {
+    top: -6%;
+    bottom: -6%;
+    left: 50%;
+    width: 2px;
+  }
+
+  @media (max-width: 860px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .hero-visual {
+      order: -1;
+    }
+    .hero-mark {
+      width: clamp(180px, 55vw, 280px);
+    }
+  }
+</style>
