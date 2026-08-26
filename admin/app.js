@@ -130,6 +130,9 @@
     h += field('引导语', 'site.contact.lead', s.contact.lead, { type: 'textarea', rows: 2 });
     h += field('邮箱', 'site.contact.email', s.contact.email);
     h += field('表单提示', 'site.contact.formNote', s.contact.formNote);
+    h += `<div class="sec-title">试玩 / Wishlist 按钮</div>`;
+    h += `<div class="row c2">${field('预约试玩·按钮文字', 'site.contact.trialText', s.contact.trialText)}${field('预约试玩·跳转链接', 'site.contact.trialUrl', s.contact.trialUrl, { hint: '点「预约试玩」后打开的网址。留空则不跳转。' })}</div>`;
+    h += `<div class="row c2">${field('Wishlist·按钮文字', 'site.contact.wishlistText', s.contact.wishlistText)}${field('Wishlist·跳转链接', 'site.contact.wishlistUrl', s.contact.wishlistUrl, { hint: '点「加入 Wishlist」后打开的网址。留空则不跳转。' })}</div>`;
     h += repeatCard('社交链接', 'site.contact.socials', (i) => [
       field('平台', `site.contact.socials[${i}].label`, s.contact.socials[i].label),
       field('账号', `site.contact.socials[${i}].handle`, s.contact.socials[i].handle),

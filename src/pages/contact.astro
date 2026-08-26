@@ -6,6 +6,10 @@ import site from '../data/site.json';
 const socials = site.contact.socials;
 const email = site.contact.email;
 const c = site.contact;
+// 试玩 / Wishlist 两个按钮：文字与跳转链接都可在编辑器里配置。留空则不跳转（保持 #）。
+const trialUrl = (c.trialUrl || '').trim();
+const wishlistUrl = (c.wishlistUrl || '').trim();
+const btnLink = (u) => (/^https?:\/\//i.test(u) ? { href: u, target: '_blank', rel: 'noopener noreferrer' } : { href: '#' });
 ---
 
 <BaseLayout title="联系 / 合作 — Limit Definition Studio" description="与极限定义工作室取得联系：商务合作、媒体交流、试玩与 Wishlist。">
@@ -38,8 +42,8 @@ const c = site.contact;
             <h2 class="small-caps info-title">试玩 / Wishlist</h2>
             <p class="muted">想第一时间体验我们的作品？关注下方按钮，把我们加进你的愿望单。</p>
             <div class="info-actions">
-              <a class="btn btn--solid" href="#" rel="noopener">预约试玩</a>
-              <a class="btn btn--ghost" href="#" rel="noopener">加入 Wishlist</a>
+              <a class="btn btn--solid" {...btnLink(trialUrl)}>{c.trialText || '预约试玩'}</a>
+              <a class="btn btn--ghost" {...btnLink(wishlistUrl)}>{c.wishlistText || '加入 Wishlist'}</a>
             </div>
           </div>
         </div>
