@@ -227,15 +227,22 @@ function saveContentItem(item, kind) {
   const dir = kind === 'work' ? WORKS_DIR : NEWS_DIR;
   const rawId = item.id || '';
   // 前端新建时带有 new- 临时 id，改用标题生成干净文件名（title 改动不破坏现有 URL）
-  const useTitleSlug = /^new-(work|news)-/.test(rawId);
-  const id = safeSlug(useTitleSlug ? (item.data && item.data.title) : rawId, kind === 'work' ? 'work' : 'news');
-  const file = path.join(dir, `${id}.md`);
+  const isNew = /^new-(work|news)-/.test(rawId);
+  const id = safeSlug(isNew ? (item.data && item.data.title) : rawId, kind === 'work' ? 'work' : 'news');
+  // 标题撞车（两个新项目同名）时追加序号，避免互相覆盖（否则删一个、另一个也跟着消失/残留）
+  let finalId = id;
+  let file = path.join(dir, `${finalId}.md`);
+  let n = 2;
+  while (isNew && fs.existsSync(file)) {
+    finalId = `${id}-${n++}`;
+    file = path.join(dir, `${finalId}.md`);
+  }
   if (!isAllowedWrite(file)) throw new Error('非法写入路径');
   const data = { ...(item.data || {}) };
   delete data._kind;
-  if (!data.title) data.title = id;
+  if (!data.title) data.title = finalId;
   writeContentFile(file, data, kind, item.body || '');
-  return { id, file };
+  return { id: finalId, file };
 }
 
 function deleteContent(id, kind) {

@@ -334,11 +334,22 @@
     d.className = 'dot ' + state;
   }
 
+  // 把 /api/save-all 返回的真实文件名 id 同步回 S，让前端与磁盘保持一致。
+  // 关键：新建的作品/公告用的是 new-work-xxx 临时 id，而服务器会把它保存成 <标题>.md。
+  // 如果不把真实 id 学回来，之后「删除」会用临时 id，找不到真实文件，
+  // 结果文件删不掉，预览和正式站就残留(幽灵)项目。这是“新增后删除→还在”的根因。
+  function adoptRealIds(results) {
+    if (!results) return;
+    (results.works || []).forEach((r, i) => { if (S.works && S.works[i]) S.works[i].id = r.id; });
+    (results.news || []).forEach((r, i) => { if (S.news && S.news[i]) S.news[i].id = r.id; });
+  }
+
   /* ---------- 保存 ---------- */
   async function doSave() {
     try {
       const payload = makeBody();
-      await api('/api/save-all', { method: 'POST', body: payload });
+      const data = await api('/api/save-all', { method: 'POST', body: payload });
+      adoptRealIds(data.results);
       clearDeletes();
       setDot('ok');
       toast('已保存，预览已刷新');
