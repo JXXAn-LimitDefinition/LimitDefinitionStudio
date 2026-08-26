@@ -51,12 +51,16 @@
     return `<div class="form-group"><label>${esc(label)}</label>${input}${o.hint ? `<div class="hint">${esc(o.hint)}</div>` : ''}</div>`;
   }
 
-  function repeatCard(title, pathBase, fields, onRemove) {
+  function repeatCard(title, pathBase, fields, opts) {
+    opts = opts || {};
     const items = getPath(S, pathBase) || [];
     const inner = items.map((it, i) => {
       const body = fields(i).map((f) => f).join('');
+      const reorder = opts.reorder ? `
+            <button class="btn tiny" data-move="${esc(pathBase)}" data-index="${i}" data-dir="-1" title="上移（提升排序）" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn tiny" data-move="${esc(pathBase)}" data-index="${i}" data-dir="1" title="下移（降低排序）" ${i === items.length - 1 ? 'disabled' : ''}>↓</button>` : '';
       return `<div class="card">
-        <div class="card-head"><span class="card-title">${esc(title)} #${i + 1}</span>
+        <div class="card-head"><span class="card-title">${esc(title)} #${i + 1}</span>${reorder}
           <button class="btn tiny danger" data-remove="${esc(pathBase)}" data-index="${i}">删除</button>
         </div>
         <div class="card-body">${body}</div>
@@ -111,7 +115,7 @@
     h += repeatCard('历程项', 'site.timeline.items', (i) => [
       field('年份', `site.timeline.items[${i}].year`, s.timeline.items[i].year),
       field('内容', `site.timeline.items[${i}].text`, s.timeline.items[i].text, { type: 'textarea', rows: 2 }),
-    ]);
+    ], { reorder: true });
 
     h += `<div class="sec-title">团队</div>`;
     h += repeatCard('成员', 'site.team', (i) => [
@@ -509,6 +513,9 @@
       const mvNews = t.closest('[data-move-news]');
       if (mvNews) { moveItem('news', Number(mvNews.dataset.moveNews), Number(mvNews.dataset.dir)); return; }
 
+      const mv = t.closest('[data-move]');
+      if (mv) { moveRepeatItem(mv.dataset.move, Number(mv.dataset.index), Number(mv.dataset.dir)); return; }
+
       const toggle = t.closest('[data-toggle]');
       if (toggle) {
         const el = toggle.closest('.item');
@@ -601,6 +608,18 @@
     const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
     if (kind === 'work') renderWorks(); else renderNews();
     doSave(); // 保存并刷新预览，让顺序立刻反映到预览
+  }
+
+  // 数组卡片（历程/定位/能力/团队/社媒等）上移/下移：交换相邻两项并保存。
+  // 这些列表在网站上按数组顺序展示，所以直接重排数组即可，无需编号字段。
+  function moveRepeatItem(pathBase, i, dir) {
+    const arr = getPath(S, pathBase);
+    const j = i + dir;
+    if (!Array.isArray(arr) || j < 0 || j >= arr.length) return;
+    collectFromActive(); // 先收集当前面板里输入的改动，避免重排后丢失
+    const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    renderContent();
+    doSave();
   }
 
   // 重渲染后，恢复之前在展开状态的项目（用 id 匹配，重排后下标已变）
