@@ -1,0 +1,80 @@
+{
+  "presets": [
+    {
+      "key": "red-line",
+      "label": "红线 · 黑（默认）",
+      "desc": "工作室标志的经典黑红配色",
+      "theme": {
+        "colors": {
+          "bg": "#0b0b0d",
+          "bg2": "#101014",
+          "surface": "#16161b",
+          "border": "#26262e",
+          "borderSoft": "#1c1c22",
+          "text": "#f5f5f5",
+          "textSoft": "#c9c9cf",
+          "textMuted": "#8a8a93",
+          "accent": "#e60012",
+          "accentDeep": "#a90a13"
+        }
+      }
+    },
+    {
+      "key": "cyan-deep",
+      "label": "青辉 · 深蓝",
+      "desc": "冷冽的青蓝，适合科幻感作品",
+      "theme": {
+        "colors": {
+          "bg": "#060a14",
+          "bg2": "#0b1120",
+          "surface": "#111a2c",
+          "border": "#233349",
+          "borderSoft": "#1a2740",
+          "text": "#eaf5ff",
+          "textSoft": "#c2d7ec",
+          "textMuted": "#8296ad",
+          "accent": "#00b8d4",
+          "accentDeep": "#0084a0"
+        }
+      }
+    },
+    {
+      "key": "blood-orange",
+      "label": "血橙",
+      "desc": "炽热醒目的橙红，张力十足",
+      "theme": {
+        "colors": {
+          "bg": "#120a07",
+          "bg2": "#18100c",
+          "surface": "#201510",
+          "border": "#3a2820",
+          "borderSoft": "#2b1d16",
+          "text": "#fff4ec",
+          "textSoft": "#e3cfc2",
+          "textMuted": "#a08a7c",
+          "accent": "#ff5a1f",
+          "accentDeep": "#c33a10"
+        }
+      }
+    },
+    {
+      "key": "silver-ice",
+      "label": "银霜 · 深灰",
+      "desc": "克制的冷灰，配一抹冰蓝",
+      "theme": {
+        "colors": {
+          "bg": "#0c0c10",
+          "bg2": "#121218",
+          "surface": "#1a1a22",
+          "border": "#2c2c38",
+          "borderSoft": "#212129",
+          "text": "#f4f4f8",
+          "textSoft": "#cfcfda",
+          "textMuted": "#90909c",
+          "accent": "#7c8cf0",
+          "accentDeep": "#5a66c0"
+        }
+      }
+    }
+  ]
+}

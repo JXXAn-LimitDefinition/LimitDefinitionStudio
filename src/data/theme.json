@@ -1,0 +1,29 @@
+{
+  "colors": {
+    "bg": "#0b0b0d",
+    "bg2": "#101014",
+    "surface": "#16161b",
+    "border": "#26262e",
+    "borderSoft": "#1c1c22",
+    "text": "#f5f5f5",
+    "textSoft": "#c9c9cf",
+    "textMuted": "#8a8a93",
+    "accent": "#e60012",
+    "accentDeep": "#a90a13"
+  },
+  "fonts": {
+    "sans": "'Noto Sans SC','PingFang SC','Microsoft YaHei',system-ui,-apple-system,sans-serif",
+    "displayCn": "'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif",
+    "displayEn": "'Space Grotesk','Chakra Petch','Inter',system-ui,sans-serif"
+  },
+  "sizes": {
+    "hero": "clamp(2.6rem,7vw,5.4rem)",
+    "h1": "clamp(2.1rem,5vw,3.4rem)",
+    "h2": "clamp(1.6rem,3.6vw,2.4rem)",
+    "h3": "clamp(1.15rem,2.2vw,1.5rem)",
+    "body": "clamp(1rem,1.15vw,1.13rem)",
+    "small": "0.86rem"
+  },
+  "radius": { "base": "4px", "lg": "10px" },
+  "motion": { "speed": "0.5s", "easeOut": "cubic-bezier(0.16,1,0.3,1)" }
+}

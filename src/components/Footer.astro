@@ -1,7 +1,8 @@
 ---
 import { B } from '../lib/base';
+import site from '../data/site.json';
 const year = new Date().getFullYear();
-
+const foot = site.footer;;
 const nav = [
   { href: '/works', label: '作品' },
   { href: '/about', label: '关于' },
@@ -16,8 +17,8 @@ const nav = [
     <div class="footer-top">
       <div class="footer-brand">
         <img src={B('/logo.jpg')} alt="Limit Definition Studio logo" class="footer-logo" />
-        <p class="footer-philosophy display--cn">超越未知，定义极限</p>
-        <p class="muted footer-note">极限定义游戏工作室 — Limit Definition Studio</p>
+        <p class="footer-philosophy display--cn">{foot.philosophy}</p>
+        <p class="muted footer-note">{foot.note}</p>
       </div>
 
       <nav class="footer-nav" aria-label="页脚导航">

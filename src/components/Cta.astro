@@ -44,7 +44,7 @@ const {
     border: 1px solid var(--c-border);
     border-radius: var(--radius-lg);
     background:
-      radial-gradient(90% 120% at 20% 0%, rgba(230, 0, 18, 0.12), transparent 55%),
+      radial-gradient(90% 120% at 20% 0%, color-mix(in srgb, var(--c-accent) 12%, transparent), transparent 55%),
       var(--c-surface);
     padding: clamp(2.5rem, 6vw, 5rem);
     text-align: center;
@@ -99,6 +99,6 @@ const {
   }
 
   .cta-actions .btn--ghost {
-    background: rgba(11, 11, 13, 0.4);
+    background: color-mix(in srgb, var(--c-bg) 40%, transparent);
   }
 </style>

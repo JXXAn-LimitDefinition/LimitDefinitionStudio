@@ -56,7 +56,7 @@ const statusLabel: Record<string, string> = {
   .project-card:hover {
     transform: translateY(-6px);
     border-color: var(--c-accent);
-    box-shadow: 0 22px 45px -22px rgba(230, 0, 18, 0.35);
+    box-shadow: 0 22px 45px -22px color-mix(in srgb, var(--c-accent) 35%, transparent);
   }
 
   .card-media {
@@ -104,13 +104,13 @@ const statusLabel: Record<string, string> = {
 
   .card-status {
     left: 0.9rem;
-    background: rgba(230, 0, 18, 0.9);
-    color: #fff;
+    background: var(--c-accent);
+    color: var(--c-text);
   }
 
   .card-year {
     right: 0.9rem;
-    background: rgba(11, 11, 13, 0.65);
+    background: color-mix(in srgb, var(--c-bg) 65%, transparent);
     color: var(--c-text-soft);
   }
 

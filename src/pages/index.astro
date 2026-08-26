@@ -7,16 +7,15 @@ import NewsCard from '../components/NewsCard.astro';
 import TeamCard from '../components/TeamCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Cta from '../components/Cta.astro';
+import site from '../data/site.json';
 import { getWorks, getNews } from '../lib/content';
 
 const featured = getWorks().filter((w) => w.data.featured).slice(0, 3);
 const latestNews = getNews().slice(0, 3);
 
-const team = [
-  { name: '林屿', role: 'Founder / Director', bio: '负责创意方向与叙事，相信"规则越少，手感越锐利"。', avatar: '' },
-  { name: '赤砚', role: 'Art / Tech Artist', bio: '黑白秘境的美术奠基者，用克制的色彩讲"极限"。', avatar: '' },
-  { name: '万衡', role: 'Lead Programmer', bio: '把每个玩法打磨到刀刃般的响应与手感。', avatar: '' },
-];
+const team = site.team.slice(0, 3);
+const pos = site.positioning;
+const sec = site.sections;
 ---
 
 <BaseLayout title="Limit Definition Studio — 超越未知，定义极限">
@@ -26,8 +25,8 @@ const team = [
   <section class="section">
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
-        <SectionHeading kicker="Representative Works" title="代表作品" eTitle="Shaping the edge" />
-        <a class="btn btn--ghost" href={B('/works')}>全部作品</a>
+        <SectionHeading kicker={sec.works.kicker} title={sec.works.title} eTitle={sec.works.en} />
+        <a class="btn btn--ghost" href={B('/works')}>{sec.works.seeAll}</a>
       </div>
       <div class="grid">
         {featured.map((p) => <ProjectCard title={p.data.title} description={p.data.description} href={`/works/${p.id}/`} cover={p.data.cover} tags={p.data.tags} status={p.data.status} year={p.data.year} />)}
@@ -39,20 +38,16 @@ const team = [
   <section class="section section--tight">
     <div class="container positioning">
       <div class="positioning-copy" data-reveal>
-        <span class="kicker">What we do</span>
-        <h2 class="display--cn positioning-title">不止做游戏，<br />我们在定义边界。</h2>
+        <span class="kicker">{pos.kicker}</span>
+        <h2 class="display--cn positioning-title">{pos.title}</h2>
       </div>
       <ul class="positioning-list">
-        {[
-          ['独立性', '以工作室内核，做打动自己的作品。'],
-          ['手质感', '把每一次交互都当作作品的一部分打磨。'],
-          ['合作开发', '与发行、平台、同行深度共建，也承接定制。'],
-        ].map(([t, d], i) => (
+        {pos.items.map((it, i) => (
           <li class="positioning-item" data-reveal>
             <span class="positioning-index small-caps">0{i + 1}</span>
             <div>
-              <h3 class="display--cn">{t}</h3>
-              <p class="muted">{d}</p>
+              <h3 class="display--cn">{it.title}</h3>
+              <p class="muted">{it.desc}</p>
             </div>
           </li>
         ))}
@@ -64,8 +59,8 @@ const team = [
   <section class="section">
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
-        <SectionHeading kicker="The Studio" title="创作团队" />
-        <a class="btn btn--ghost" href={B('/team')}>认识团队</a>
+        <SectionHeading kicker={sec.team.kicker} title={sec.team.title} />
+        <a class="btn btn--ghost" href={B('/team')}>{sec.team.seeAll}</a>
       </div>
       <div class="grid grid--3">
         {team.map((m) => <TeamCard {...m} />)}
@@ -77,8 +72,8 @@ const team = [
   <section class="section">
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
-        <SectionHeading kicker="Dev Log" title="最新动态" />
-        <a class="btn btn--ghost" href={B('/news')}>全部动态</a>
+        <SectionHeading kicker={sec.news.kicker} title={sec.news.title} />
+        <a class="btn btn--ghost" href={B('/news')}>{sec.news.seeAll}</a>
       </div>
       <div class="grid grid--3">
         {latestNews.map((n) => (

@@ -1,5 +1,7 @@
 ---
 import { B } from '../lib/base';
+import site from '../data/site.json';
+import theme from '../data/theme.json';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -14,7 +16,7 @@ interface Props {
 }
 
 const {
-  title = 'Limit Definition Studio — 超越未知，定义极限',
+  title = `${site.brand.name} — ${site.brand.tagline}`,
   description = '极限定义游戏工作室（Limit Definition Studio）官网。代表作、团队、关于与最新动态。我们以锋利与极致的方式，探索游戏表达的边界。',
   image = '/logo.jpg',
   type = 'website',
@@ -23,7 +25,39 @@ const {
 } = Astro.props;
 
 const ogImage = new URL(B(image), Astro.site ?? Astro.url).href;
-const siteName = 'Limit Definition Studio';
+const siteName = site.brand.name;
+
+// 主题令牌：把 theme.json 展开成 CSS 自定义属性（全局 :root 生效，供所有组件引用）。
+const themeVars = {
+  'c-bg': theme.colors.bg,
+  'c-bg-2': theme.colors.bg2,
+  'c-surface': theme.colors.surface,
+  'c-border': theme.colors.border,
+  'c-border-soft': theme.colors.borderSoft,
+  'c-text': theme.colors.text,
+  'c-text-soft': theme.colors.textSoft,
+  'c-text-muted': theme.colors.textMuted,
+  'c-accent': theme.colors.accent,
+  'c-accent-deep': theme.colors.accentDeep,
+  'c-accent-glow': 'color-mix(in srgb, var(--c-accent) 35%, transparent)',
+  'gradient-shard': 'linear-gradient(135deg, #ffffff 0%, #c9c9cf 48%, #5c5c66 100%)',
+  'font-sans': theme.fonts.sans,
+  'font-display-cn': theme.fonts.displayCn,
+  'font-display-en': theme.fonts.displayEn,
+  'fs-hero': theme.sizes.hero,
+  'fs-h1': theme.sizes.h1,
+  'fs-h2': theme.sizes.h2,
+  'fs-h3': theme.sizes.h3,
+  'fs-body': theme.sizes.body,
+  'fs-small': theme.sizes.small,
+  'space-section': 'clamp(4.5rem, 9vw, 8.5rem)',
+  'gutter': 'clamp(1.25rem, 4vw, 4rem)',
+  'radius': theme.radius.base,
+  'radius-lg': theme.radius.lg,
+  'ease-out': theme.motion.easeOut,
+  'speed': theme.motion.speed,
+  'focus-ring': '2px solid var(--c-accent)',
+};
 ---
 
 <!doctype html>
@@ -37,7 +71,7 @@ const siteName = 'Limit Definition Studio';
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="theme-color" content={theme.colors.bg} />
     <link rel="icon" type="image/svg+xml" href={B('/favicon.svg')} />
     <link rel="apple-touch-icon" href={B('/logo.jpg')} />
 
@@ -107,10 +141,16 @@ const siteName = 'Limit Definition Studio';
     z-index: 100;
     padding: 0.7rem 1rem;
     background: var(--c-accent);
-    color: #fff;
+    color: var(--c-text);
     font-family: var(--font-display-en);
   }
   .skip-link:focus {
     left: 0;
+  }
+</style>
+
+<style is:global define:vars={themeVars}>
+  :root {
+    color-scheme: dark;
   }
 </style>

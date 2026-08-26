@@ -16,6 +16,9 @@ node_modules/
 .env
 .env.*
 
+# local editor data (keep on your machine, not shipped)
+admin/publish-log.json
+
 # dsh project requirements (local only, not shipped)
 .dsh/
 

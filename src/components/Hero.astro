@@ -1,5 +1,6 @@
 ---
 import { B } from '../lib/base';
+import site from '../data/site.json';
 interface Props {
   kicker?: string;
   title?: string;
@@ -7,10 +8,10 @@ interface Props {
   lede?: string;
 }
 const {
-  kicker = 'Limit Definition Studio',
-  title = '超越未知，定义极限',
-  subtitle = '游戏 · 体验 · 边界',
-  lede = '极限定义游戏工作室。我们以锋利与极致的方式，探索游戏表达的边界——把每一次未知，变成下一款作品的定义。',
+  kicker = site.hero.kicker,
+  title = site.hero.title,
+  subtitle = site.hero.subtitle,
+  lede = site.hero.lede,
 } = Astro.props;
 ---
 
@@ -48,7 +49,7 @@ const {
     overflow: hidden;
     padding-block: clamp(4rem, 9vw, 8rem);
     background:
-      radial-gradient(120% 90% at 80% 10%, rgba(230, 0, 18, 0.1), transparent 55%),
+      radial-gradient(120% 90% at 80% 10%, color-mix(in srgb, var(--c-accent) 10%, transparent), transparent 55%),
       var(--c-bg);
   }
 
@@ -138,7 +139,7 @@ const {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 0 40px rgba(230, 0, 18, 0.18));
+    filter: drop-shadow(0 0 40px color-mix(in srgb, var(--c-accent) 18%, transparent));
     border-radius: 14px;
   }
 

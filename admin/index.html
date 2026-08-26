@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>极限定义工作室 · 本地编辑器</title>
+  <link rel="stylesheet" href="/admin/app.css">
+</head>
+<body>
+  <div id="pin-gate" class="pin-gate hidden">
+    <div class="pin-box">
+      <h1>输入访问 PIN</h1>
+      <p>这是一个只有你能打开的本机编辑入口。</p>
+      <input id="pin-input" type="password" placeholder="PIN" autocomplete="off">
+      <button id="pin-enter">进入</button>
+      <div id="pin-error" class="error-text hidden">PIN 不正确</div>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div class="topbar-title">
+        <strong>极限定义工作室</strong>
+        <span class="muted">本地编辑器</span>
+      </div>
+      <div class="topbar-actions">
+        <span id="status-dot" class="dot"></span>
+        <a id="preview-link" class="btn small" target="_blank" rel="noopener">打开预览 ↗</a>
+        <button id="btn-save" class="btn small primary">保存</button>
+        <button id="btn-publish" class="btn small accent">发布上线</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button data-tab="content" class="tab active">内容</button>
+      <button data-tab="theme" class="tab">主题</button>
+      <button data-tab="works" class="tab">作品</button>
+      <button data-tab="news" class="tab">动态</button>
+      <button data-tab="settings" class="tab">设置</button>
+    </nav>
+
+    <div class="workspace">
+      <div id="panel-content" class="panel active"></div>
+      <div id="panel-theme" class="panel"></div>
+      <div id="panel-works" class="panel"></div>
+      <div id="panel-news" class="panel"></div>
+      <div id="panel-settings" class="panel"></div>
+    </div>
+
+    <aside class="preview">
+      <div class="preview-head">
+        <span>实时预览</span>
+        <button id="btn-refresh" class="btn tiny">刷新</button>
+      </div>
+      <iframe id="preview-frame" title="实时预览"></iframe>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/admin/app.js"></script>
+</body>
+</html>

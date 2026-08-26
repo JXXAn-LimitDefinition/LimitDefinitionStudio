@@ -84,7 +84,7 @@ const statusLabel: Record<string, string> = {
   .project-hero {
     padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem);
     background:
-      radial-gradient(100% 80% at 70% 0%, rgba(230, 0, 18, 0.08), transparent 55%),
+      radial-gradient(100% 80% at 70% 0%, color-mix(in srgb, var(--c-accent) 8%, transparent), transparent 55%),
       var(--c-bg);
     border-bottom: 1px solid var(--c-border-soft);
   }
@@ -120,9 +120,9 @@ const statusLabel: Record<string, string> = {
     letter-spacing: 0.08em;
     padding: 0.35rem 0.8rem;
     border-radius: 3px;
-    background: rgba(230, 0, 18, 0.16);
+    background: color-mix(in srgb, var(--c-accent) 16%, transparent);
     color: var(--c-accent);
-    border: 1px solid rgba(230, 0, 18, 0.4);
+    border: 1px solid color-mix(in srgb, var(--c-accent) 40%, transparent);
     margin-bottom: 1.1rem;
   }
 

@@ -4,49 +4,8 @@
    minimal / sharp / high-contrast / angular geometry
    ============================================================ */
 
-:root {
-  /* Palette — derived from the LD logo (black bg, white shards, red axis) */
-  --c-bg: #0b0b0d;
-  --c-bg-2: #101014;
-  --c-surface: #16161b;
-  --c-border: #26262e;
-  --c-border-soft: #1c1c22;
-
-  --c-text: #f5f5f5;
-  --c-text-soft: #c9c9cf;
-  --c-text-muted: #8a8a93;
-
-  --c-accent: #e60012;
-  --c-accent-deep: #a90a13;
-  --c-accent-glow: rgba(230, 0, 18, 0.35);
-
-  --gradient-shard: linear-gradient(135deg, #ffffff 0%, #c9c9cf 48%, #5c5c66 100%);
-
-  /* Type */
-  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-  --font-display-cn: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', serif;
-  --font-display-en: 'Space Grotesk', 'Chakra Petch', 'Inter', system-ui, sans-serif;
-
-  --fs-hero: clamp(2.6rem, 7vw, 5.4rem);
-  --fs-h1: clamp(2.1rem, 5vw, 3.4rem);
-  --fs-h2: clamp(1.6rem, 3.6vw, 2.4rem);
-  --fs-h3: clamp(1.15rem, 2.2vw, 1.5rem);
-  --fs-body: clamp(1rem, 1.15vw, 1.13rem);
-  --fs-small: 0.86rem;
-
-  --space-section: clamp(4.5rem, 9vw, 8.5rem);
-  --gutter: clamp(1.25rem, 4vw, 4rem);
-
-  --radius: 4px;
-  --radius-lg: 10px;
-
-  /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --speed: 0.5s;
-
-  /* a11y contrast */
-  --focus-ring: 2px solid var(--c-accent);
-}
+/* 设计令牌（:root 变量）统一由 src/data/theme.json 注入（见 BaseLayout.astro）。
+   本文件只保留结构/布局/字体排布规则，颜色、字号、圆角、动效均引用主题变量。 */
 
 *,
 *::before,

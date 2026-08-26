@@ -1,21 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import site from '../data/site.json';
 
-const socials = [
-  { label: 'Bilibili', handle: '@LimitDefinition', url: '#' },
-  { label: 'Weibo', handle: '@极限定义工作室', url: '#' },
-  { label: 'X / Twitter', handle: '@LimitDefStudio', url: '#' },
-  { label: 'Twitch', handle: '@LimitDefinition', url: '#' },
-];
-
-const email = 'business@limitdefinition.studio';
+const socials = site.contact.socials;
+const email = site.contact.email;
+const c = site.contact;
 ---
 
 <BaseLayout title="联系 / 合作 — Limit Definition Studio" description="与极限定义工作室取得联系：商务合作、媒体交流、试玩与 Wishlist。">
   <section class="section">
     <div class="container">
-      <SectionHeading kicker="Contact" title="联系 / 合作" eTitle="Let's shape the edge together" lead="无论是商务、媒体还是试玩交流，欢迎与我们联系。" />
+      <SectionHeading kicker={c.kicker} title={c.title} eTitle={c.en} lead={c.lead} />
 
       <div class="contact-grid">
         <div class="contact-info">
@@ -49,7 +45,7 @@ const email = 'business@limitdefinition.studio';
         </div>
 
         <form class="form" data-reveal method="post" action={`mailto:${email}`} enctype="text/plain">
-          <p class="form-note small-caps">给我们留言</p>
+          <p class="form-note small-caps">{c.formNote}</p>
 
           <label class="field">
             <span>你的称呼 *</span>

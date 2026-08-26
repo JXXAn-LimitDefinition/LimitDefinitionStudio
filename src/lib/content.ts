@@ -13,6 +13,7 @@ export interface WorkData {
   cover?: string;
   featured: boolean;
   order: number;
+  draft?: boolean;
   links: { label: string; url: string }[];
 }
 
@@ -54,6 +55,7 @@ function slugFrom(file: string): string {
 
 export function getWorks(): WorkEntry[] {
   return Object.entries(workModules)
+    .filter(([, mod]) => !(mod.frontmatter as Record<string, unknown>).draft)
     .map(([file, mod]) => {
       const fm = mod.frontmatter as Record<string, unknown>;
       const links = Array.isArray(fm.links)
@@ -74,6 +76,7 @@ export function getWorks(): WorkEntry[] {
           cover: fm.cover ? String(fm.cover) : undefined,
           featured: Boolean(fm.featured),
           order: Number(fm.order ?? 0),
+          draft: Boolean(fm.draft),
           links,
         },
       };
