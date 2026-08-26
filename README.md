@@ -67,7 +67,7 @@ public/           logo.jpg / robots.txt
 
 ## 品牌
 
-基于工作室图标 `D:\QQimage\LD.jpg`（已拷入 `src/assets` 与 `public`）。规范英文名 **LimitDefinitionStudio**，核心理念 **超越未知，定义极限**。
+基于工作室图标 （已拷入 `src/assets` 与 `public`）。规范英文名 **LimitDefinitionStudio**，核心理念 **超越未知，定义极限**。
 
 ---
 
