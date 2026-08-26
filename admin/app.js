@@ -5,6 +5,8 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  // 安全事件绑定：元素不存在时跳过，避免因缺失元素抛错而中断整个初始化
+  const bind = (sel, evt, handler) => { const el = $(sel); if (el) el.addEventListener(evt, handler); };
 
   let S = null; // 全局状态：site / theme / works / news / deletedWorkIds / deletedNewsIds
   let PIN_OK = false;
@@ -611,18 +613,20 @@
   function startApp() {
     $('#app').classList.remove('hidden');
     $('#pin-gate').classList.add('hidden');
+    // 先渲染所有面板：让「设置」等面板动态创建的按钮（上传 Logo、预览服务等）先存在，
+    // 否则下一步绑定会因元素不存在而抛错，中断整个初始化（这是此前内容为空、按钮无响应的根因）
+    renderAll();
     bindClicks();
     $$('#tabs .tab').forEach((t) => t.addEventListener('click', () => switchTab(t.dataset.tab)));
-    $('#btn-save').addEventListener('click', doSave);
-    $('#btn-publish').addEventListener('click', doPublish);
-    $('#btn-refresh').addEventListener('click', refreshIframe);
+    bind('#btn-save', 'click', doSave);
+    bind('#btn-publish', 'click', doPublish);
+    bind('#btn-refresh', 'click', refreshIframe);
     document.addEventListener('input', (e) => { if (e.target.closest('[data-path]')) scheduleAutoSave(); });
-    $('#btn-upload-logo').addEventListener('click', uploadLogo);
-    $('#btn-preview-start').addEventListener('click', () => api('/api/preview/start', { method: 'POST' }).then(() => { toast('预览服务已启动'); refreshIframe(); }).catch((e) => toast(e.message, 'err')));
-    $('#btn-open-preview').addEventListener('click', () => window.open(S.previewUrl, '_blank'));
-    $('#preview-link').addEventListener('click', () => window.open(S.previewUrl, '_blank'));
+    bind('#btn-upload-logo', 'click', uploadLogo);
+    bind('#btn-preview-start', 'click', () => api('/api/preview/start', { method: 'POST' }).then(() => { toast('预览服务已启动'); refreshIframe(); }).catch((e) => toast(e.message, 'err')));
+    bind('#btn-open-preview', 'click', () => window.open(S.previewUrl, '_blank'));
+    bind('#preview-link', 'click', () => window.open(S.previewUrl, '_blank'));
     $('#preview-frame').src = S.previewUrl;
-    renderAll();
   }
 
   init2();
