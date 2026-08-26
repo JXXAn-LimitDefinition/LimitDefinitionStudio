@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import TeamCard from '../components/TeamCard.astro';
@@ -28,7 +29,7 @@ const team = [
       <SectionHeading kicker="Join Us" title="加入我们" lead="如果你也相信"定义极限"，我们很乐意认识你。" />
       <div class="join card" data-reveal>
         <p>我们始终欢迎对游戏充满热情、愿意认真打磨作品的伙伴。</p>
-        <a class="btn btn--solid" href="/contact">发送简历 / 认识我们</a>
+        <a class="btn btn--solid" href={B('/contact')}>发送简历 / 认识我们</a>
       </div>
     </div>
   </section>

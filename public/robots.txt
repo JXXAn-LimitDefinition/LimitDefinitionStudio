@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jxxan-limitdefinition.github.io/limitdefinitionstudio/sitemap-index.xml
+Sitemap: https://jxxan-limitdefinition.github.io/LimitDefinitionStudio/sitemap-index.xml

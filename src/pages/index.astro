@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -26,7 +27,7 @@ const team = [
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
         <SectionHeading kicker="Representative Works" title="代表作品" eTitle="Shaping the edge" />
-        <a class="btn btn--ghost" href="/works">全部作品</a>
+        <a class="btn btn--ghost" href={B('/works')}>全部作品</a>
       </div>
       <div class="grid">
         {featured.map((p) => <ProjectCard title={p.data.title} description={p.data.description} href={`/works/${p.id}/`} cover={p.data.cover} tags={p.data.tags} status={p.data.status} year={p.data.year} />)}
@@ -64,7 +65,7 @@ const team = [
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
         <SectionHeading kicker="The Studio" title="创作团队" />
-        <a class="btn btn--ghost" href="/team">认识团队</a>
+        <a class="btn btn--ghost" href={B('/team')}>认识团队</a>
       </div>
       <div class="grid grid--3">
         {team.map((m) => <TeamCard {...m} />)}
@@ -77,7 +78,7 @@ const team = [
     <div class="container">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
         <SectionHeading kicker="Dev Log" title="最新动态" />
-        <a class="btn btn--ghost" href="/news">全部动态</a>
+        <a class="btn btn--ghost" href={B('/news')}>全部动态</a>
       </div>
       <div class="grid grid--3">
         {latestNews.map((n) => (

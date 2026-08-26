@@ -2,11 +2,17 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// GitHub Pages 项目站点可工作于子路径；默认 '/'（用户仓库根）。部署时按仓库名调整 base。
-const base = process.env.BASE_PATH || '/';
+// 在 CI（GitHub Actions）里根据仓库名自动推导 site 与 base；本地开发用默认值。
+// 这样无论仓库名大小写/是否换名，产物地址都正确。
+const [owner = 'JXXAn-LimitDefinition', repoName = 'LimitDefinitionStudio'] = (
+  process.env.GITHUB_REPOSITORY || 'JXXAn-LimitDefinition/LimitDefinitionStudio'
+).split('/');
+const isUserSite = /\.github\.io$/.test(repoName);
 
-// site 用于生成绝对 URL 与 sitemap。此处为 GitHub Pages 项目站点地址；若换仓库名或绑自定义域名，改这里。
-const SITE = 'https://jxxan-limitdefinition.github.io/limitdefinitionstudio';
+const base = process.env.BASE_PATH || (isUserSite ? '/' : `/${repoName}/`);
+const SITE =
+  process.env.SITE_URL ||
+  (isUserSite ? `https://${owner}.github.io` : `https://${owner}.github.io/${repoName}`);
 
 export default defineConfig({
   site: SITE,

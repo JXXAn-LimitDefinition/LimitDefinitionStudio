@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 interface Props {
   kicker?: string;
   title?: string;
@@ -21,8 +22,8 @@ const {
       <p class="hero-sub display">{subtitle}</p>
       <p class="hero-lede muted">{lede}</p>
       <div class="hero-actions">
-        <a class="btn btn--solid" href="/works">看我们的作品</a>
-        <a class="btn btn--ghost" href="/contact">商务合作</a>
+        <a class="btn btn--solid" href={B('/works')}>看我们的作品</a>
+        <a class="btn btn--ghost" href={B('/contact')}>商务合作</a>
       </div>
       <dl class="hero-meta">
         <div><dt class="small-caps">定位</dt><dd>游戏工作室</dd></div>
@@ -33,7 +34,7 @@ const {
 
     <div class="hero-visual" data-reveal>
       <div class="hero-mark">
-        <img src="/logo.jpg" alt="极限定义工作室图标" class="hero-logo" />
+        <img src={B('/logo.jpg')} alt="极限定义工作室图标" class="hero-logo" />
         <span class="axis axis-x" aria-hidden="true"></span>
         <span class="axis axis-y" aria-hidden="true"></span>
       </div>

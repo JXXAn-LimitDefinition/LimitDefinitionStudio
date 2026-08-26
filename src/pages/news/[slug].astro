@@ -1,4 +1,5 @@
 ---
+import { B } from '../../lib/base';
 import type { NewsEntry } from '../../lib/content';
 import { getNews } from '../../lib/content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -24,7 +25,7 @@ const dateStr = fmt.format(pubDate);
     <header class="post-header">
       <div class="container">
         <nav class="breadcrumb small-caps" aria-label="面包屑">
-          <a href="/news">动态</a>
+          <a href={B('/news')}>动态</a>
           <span aria-hidden="true">/</span>
           <span>{title}</span>
         </nav>
@@ -42,7 +43,7 @@ const dateStr = fmt.format(pubDate);
       <div class="post-content" data-reveal>
         <Content />
         <div class="post-back">
-          <a class="btn btn--ghost" href="/news">← 返回动态</a>
+          <a class="btn btn--ghost" href={B('/news')}>← 返回动态</a>
         </div>
       </div>
     </div>

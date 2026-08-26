@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
@@ -9,8 +10,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h1 class="display--cn">这一条边界，还没有被定义。</h1>
       <p class="muted">你访问的页面不存在或已被移动。</p>
       <div class="notfound-actions">
-        <a class="btn btn--solid" href="/">回到首页</a>
-        <a class="btn btn--ghost" href="/works">浏览作品</a>
+        <a class="btn btn--solid" href={B('/')}>回到首页</a>
+        <a class="btn btn--ghost" href={B('/works')}>浏览作品</a>
       </div>
     </div>
   </section>

@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 interface Props {
   kicker?: string;
   title?: string;
@@ -26,8 +27,8 @@ const {
       <h2 class="cta-title display--cn">{title}</h2>
       <p class="cta-lede muted">{lede}</p>
       <div class="cta-actions">
-        <a class="btn btn--solid" href={primaryHref}>{primaryLabel}</a>
-        <a class="btn btn--ghost" href={secondaryHref}>{secondaryLabel}</a>
+        <a class="btn btn--solid" href={B(primaryHref)}>{primaryLabel}</a>
+        <a class="btn btn--ghost" href={B(secondaryHref)}>{secondaryLabel}</a>
       </div>
     </div>
   </div>

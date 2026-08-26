@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 interface Props {
   title: string;
   description: string;
@@ -13,12 +14,12 @@ const fmt = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', d
 const dateStr = fmt.format(date);
 ---
 
-<a class="news-card" href={href} data-reveal>
+<a class="news-card" href={B(href)} data-reveal>
   <div class="news-media">
     {cover ? (
       <img src={cover} alt={`${title} 封面`} loading="lazy" decoding="async" />
     ) : (
-      <img src="/logo.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <img src={B('/logo.jpg')} alt="" aria-hidden="true" loading="lazy" />
     )}
   </div>
   <div class="news-body">

@@ -1,4 +1,5 @@
 ---
+import { B } from '../../lib/base';
 import type { WorkEntry } from '../../lib/content';
 import { getWorks } from '../../lib/content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -28,7 +29,7 @@ const statusLabel: Record<string, string> = {
     <header class="project-hero">
       <div class="container">
         <nav class="breadcrumb small-caps" aria-label="面包屑">
-          <a href="/works">作品</a>
+          <a href={B('/works')}>作品</a>
           <span aria-hidden="true">/</span>
           <span>{title}</span>
         </nav>
@@ -71,7 +72,7 @@ const statusLabel: Record<string, string> = {
           )}
           {year && <div><dt class="small-caps">年份</dt><dd>{year}</dd></div>}
         </dl>
-        <a class="btn btn--ghost" href="/works">← 返回作品</a>
+        <a class="btn btn--ghost" href={B('/works')}>← 返回作品</a>
       </aside>
     </div>
   </article>

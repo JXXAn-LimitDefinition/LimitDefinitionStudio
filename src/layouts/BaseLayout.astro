@@ -1,4 +1,5 @@
 ---
+import { B } from '../lib/base';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -21,7 +22,7 @@ const {
   canonical = Astro.url.href,
 } = Astro.props;
 
-const ogImage = new URL(image, Astro.site ?? Astro.url).href;
+const ogImage = new URL(B(image), Astro.site ?? Astro.url).href;
 const siteName = 'Limit Definition Studio';
 ---
 
@@ -37,8 +38,8 @@ const siteName = 'Limit Definition Studio';
     <link rel="canonical" href={canonical} />
 
     <meta name="theme-color" content="#0b0b0d" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/logo.jpg" />
+    <link rel="icon" type="image/svg+xml" href={B('/favicon.svg')} />
+    <link rel="apple-touch-icon" href={B('/logo.jpg')} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={type} />
