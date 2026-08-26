@@ -66,14 +66,14 @@
   function renderContent() {
     const s = S.site;
     let h = '';
-    h += `<div class="sec-title">品牌</div>`;
+    h += `<div class="sec-title">品牌信息（网站标题 / 导航用）</div>`;
     h += `<div class="row c2">${field('英文名', 'site.brand.name', s.brand.name)}${field('中文名', 'site.brand.nameCn', s.brand.nameCn)}</div>`;
-    h += `<div class="row c2">${field('品牌标语', 'site.brand.tagline', s.brand.tagline)}${field('副标语', 'site.brand.subtitle', s.brand.subtitle)}</div>`;
+    h += field('品牌标语（浏览器标签页标题用）', 'site.brand.tagline', s.brand.tagline, { hint: '会出现在浏览器标签页标题里，不是首页大字。' });
 
-    h += `<div class="sec-title">首页首屏（Hero）</div>`;
-    h += field('小标题 kicker', 'site.hero.kicker', s.hero.kicker);
-    h += field('主标题', 'site.hero.title', s.hero.title);
-    h += field('副标题', 'site.hero.subtitle', s.hero.subtitle);
+    h += `<div class="sec-title">首页首屏（Hero，首页最上方大字部分）</div>`;
+    h += field('小标题 kicker', 'site.hero.kicker', s.hero.kicker, { hint: '首页最上方那行小字。' });
+    h += field('主标题（首页大字）', 'site.hero.title', s.hero.title, { hint: '首页那行最大的渐变字。' });
+    h += field('副标语（首页红色小字）', 'site.hero.subtitle', s.hero.subtitle, { hint: '首页大字下方那行红色字，例如“游戏 · 体验 · 边界”。' });
     h += field('一句话介绍', 'site.hero.lede', s.hero.lede, { type: 'textarea', rows: 2 });
 
     h += `<div class="sec-title">板块标题</div>`;
