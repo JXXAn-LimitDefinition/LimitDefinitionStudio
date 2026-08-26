@@ -342,6 +342,9 @@
       clearDeletes();
       setDot('ok');
       toast('已保存，预览已刷新');
+      // 「边改边看」的关键：写盘后给预览服务器一点时间重新编译，再强制刷新右侧 iframe，
+      // 这样即使 HMR 推送没生效，预览也会立刻反映最新改动（不再只依赖 HMR）。
+      setTimeout(refreshIframe, 280);
     } catch (e) {
       setDot('err');
       toast('保存失败：' + e.message, 'err');
@@ -436,7 +439,12 @@
   /* ---------- 预览 ---------- */
   function refreshIframe() {
     const f = $('#preview-frame');
-    if (f && f.src) f.src = f.src;
+    if (!f) return;
+    // 强制重新加载：给预览地址附加一个时间戳参数，确保浏览器一定重新发起请求
+    // （对 iframe 直接赋值同一个 src 有时不会真的刷新，这是之前“预览不更新”的隐患之一）
+    const base = (S && S.previewUrl) || 'http://127.0.0.1:4399/';
+    const sep = base.includes('?') ? '&' : '?';
+    f.src = base + sep + 't=' + Date.now();
   }
 
   /* ---------- Tab ---------- */
