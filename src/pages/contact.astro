@@ -44,8 +44,11 @@ const c = site.contact;
           </div>
         </div>
 
-        <form class="form" data-reveal method="post" action={`mailto:${email}`} enctype="text/plain">
+        <form class="form" data-reveal id="contact-form" method="POST" action="https://api.web3forms.com/submit">
           <p class="form-note small-caps">{c.formNote}</p>
+
+          <input type="hidden" name="access_key" value="19062a0e-a909-44f0-b9f0-93f6620b561a" />
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
 
           <label class="field">
             <span>你的称呼 *</span>
@@ -73,11 +76,49 @@ const c = site.contact;
           </label>
 
           <button type="submit" class="btn btn--solid">发送留言</button>
-          <p class="form-hint muted">提交将打开你的邮件客户端发送，我们会尽快回复。</p>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-hint muted">点击发送后，我们会尽快回复你。</p>
         </form>
       </div>
     </div>
   </section>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const statusEl = document.getElementById('form-status');
+    if (form && statusEl) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        const oldText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = '发送中…';
+        statusEl.textContent = '';
+        statusEl.className = 'form-status';
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' },
+          });
+          const data = await res.json();
+          if (data.success) {
+            form.reset();
+            statusEl.textContent = '✅ 已收到你的留言，我们会尽快回复你！';
+            statusEl.className = 'form-status ok';
+          } else {
+            throw new Error(data.message || '发送失败，请稍后重试');
+          }
+        } catch (err) {
+          statusEl.textContent = '❌ 发送失败：' + (err && err.message ? err.message : '请稍后重试');
+          statusEl.className = 'form-status err';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = oldText;
+        }
+      });
+    }
+  </script>
 </BaseLayout>
 
 <style>
@@ -195,6 +236,17 @@ const c = site.contact;
 
   .form-hint {
     font-size: 0.8rem;
+  }
+
+  .form-status {
+    font-size: 0.9rem;
+    min-height: 1.2em;
+  }
+  .form-status.ok {
+    color: var(--c-accent);
+  }
+  .form-status.err {
+    color: #ff5c5c;
   }
 
   @media (max-width: 860px) {
