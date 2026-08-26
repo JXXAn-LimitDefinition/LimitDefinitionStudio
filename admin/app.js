@@ -550,30 +550,44 @@
   /* ---------- 加载初始化 ---------- */
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   async function init2() {
-    let lastErr = null;
-    // 第一次进入可能服务器还在启动，先重试几次；只有服务端明确要 PIN 才弹锁
-    for (let i = 0; i < 4; i++) {
+    // 一进来先给个友好的“正在启动”画面（不弹 PIN、不需要任何输入）
+    showGate(null, { title: '正在启动编辑器', sub: '正在连接本机编辑服务，请稍候…（通常几秒就好）' });
+    let needPin = false;
+    // 首次进入服务器可能还在启动：持续重试，服务一旦就绪就自动进入
+    const attempts = 25; // 每次约 700ms，合计约 17 秒
+    for (let i = 0; i < attempts; i++) {
       try {
         const r = await api('/api/state');
         S = buildS(r);
         startApp();
         return;
       } catch (e) {
-        lastErr = e;
-        if (e.status === 401) break;      // 真正需要 PIN，直接展示锁
-        await sleep(400 + i * 300);        // 服务器可能还在启动，稍等重试
+        if (e.status === 401) { needPin = true; break; } // 真正需要 PIN
+        await sleep(700);                                 // 服务器还在启动，等一下再试
       }
     }
-    showGate(!!(lastErr && lastErr.status === 401));
-  }
-  // 只有服务端明确返回 401（设了 PIN）才显示 PIN 输入框；否则给个“重试”提示
-  function showGate(needPin) {
-    $('#pin-gate').classList.remove('hidden');
-    $('#pin-form').classList.toggle('hidden', !needPin);
-    $('#pin-fallback').classList.toggle('hidden', needPin);
     if (needPin) {
+      showGate(true);
+    } else {
+      // 一直没连上：给出重试提示
+      showGate(false, { title: '还没连上编辑服务', sub: '编辑器似乎还没就绪。请稍候几秒后点“重试”，或按 F5 刷新。' });
+    }
+  }
+  // mode：true=PIN 输入框；false=失败重试提示；null=等待/启动中提示
+  function showGate(mode, copy) {
+    const gate = $('#pin-gate');
+    gate.classList.remove('hidden');
+    const showPin = mode === true;
+    $('#pin-form').classList.toggle('hidden', !showPin);
+    $('#pin-fallback').classList.toggle('hidden', showPin);
+    if (copy) {
+      $('#pin-title').textContent = copy.title;
+      $('#pin-sub').textContent = copy.sub;
+    } else if (showPin) {
       $('#pin-title').textContent = '输入访问 PIN';
       $('#pin-sub').textContent = '这是一个只有你能打开的本机编辑入口。';
+    }
+    if (showPin) {
       $('#pin-enter').onclick = async () => {
         const v = $('#pin-input').value;
         try {
@@ -583,8 +597,6 @@
       };
       $('#pin-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#pin-enter').click(); });
     } else {
-      $('#pin-title').textContent = '编辑器正在启动';
-      $('#pin-sub').textContent = '这个本机编辑入口不需要 PIN。稍等一下，或点“重试”。';
       $('#btn-retry').onclick = init2;
     }
   }

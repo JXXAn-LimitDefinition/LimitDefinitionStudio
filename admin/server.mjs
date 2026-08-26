@@ -387,13 +387,19 @@ async function listHistory() {
 let previewProc = null;
 function startPreview() {
   if (previewProc && !previewProc.killed) return { ok: true, already: true, url: `http://127.0.0.1:${PREVIEW_PORT}/` };
-  previewProc = spawn(process.execPath, [path.join(ROOT, 'node_modules', 'astro', 'bin', 'astro.mjs'), 'dev', '--port', String(PREVIEW_PORT), '--host', '127.0.0.1'], {
-    cwd: ROOT,
-    env: { ...process.env, BASE_PATH: '/', ASTRO_TELEMETRY_DISABLED: '1', DO_NOT_TRACK: '1' },
-    detached: false,
-    stdio: 'ignore',
-  });
-  previewProc.on('error', () => { previewProc = null; });
+  try {
+    previewProc = spawn(process.execPath, [path.join(ROOT, 'node_modules', 'astro', 'bin', 'astro.mjs'), 'dev', '--port', String(PREVIEW_PORT), '--host', '127.0.0.1'], {
+      cwd: ROOT,
+      env: { ...process.env, BASE_PATH: '/', ASTRO_TELEMETRY_DISABLED: '1', DO_NOT_TRACK: '1' },
+      detached: false,
+      stdio: 'ignore',
+    });
+    previewProc.on('error', () => { previewProc = null; });
+  } catch (e) {
+    // 即使预览进程启动失败，也绝不连带让编辑器服务器崩溃
+    previewProc = null;
+    console.log(`[editor] 启动实时预览失败(不影响编辑器): ${(e && e.message) || e}`);
+  }
   return { ok: true, url: `http://127.0.0.1:${PREVIEW_PORT}/` };
 }
 function stopPreview() {
@@ -557,8 +563,12 @@ server.listen(PORT, HOST, () => {
   console.log(`[editor] Limit Definition Studio 本地编辑器已启动`);
   console.log(`[editor] 打开: http://${HOST}:${PORT}`);
   if (process.env.ADMIN_AUTO_PREVIEW !== '0') {
-    const r = startPreview();
-    console.log(`[editor] 实时预览已启动(热更新): ${r.url}`);
+    try {
+      const r = startPreview();
+      console.log(`[editor] 实时预览已启动(热更新): ${r.url}`);
+    } catch (e) {
+      console.log(`[editor] 实时预览启动失败(不影响编辑器): ${(e && e.message) || e}`);
+    }
   } else {
     console.log(`[editor] 实时预览未自动启动(ADMIN_AUTO_PREVIEW=0)，可在设置页手动打开。`);
   }

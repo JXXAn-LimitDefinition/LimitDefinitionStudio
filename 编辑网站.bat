@@ -18,7 +18,7 @@ echo   关闭本窗口 = 退出编辑器
 echo ============================================
 echo.
 
-start "" powershell -NoProfile -WindowStyle Hidden -Command "Start-Sleep 1; Start-Process 'http://127.0.0.1:3130'"
+start "" powershell -NoProfile -WindowStyle Hidden -Command "$u='http://127.0.0.1:3130/api/ping'; $ok=$false; for($i=0;$i -lt 40;$i++){ try { $r=Invoke-WebRequest -UseBasicParsing -Uri $u -TimeoutSec 2; if($r.StatusCode -eq 200){ $ok=$true; break } } catch {}; Start-Sleep -Milliseconds 500 }; Start-Process 'http://127.0.0.1:3130'"
 node admin\server.mjs
 
 echo.
