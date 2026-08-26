@@ -7,72 +7,149 @@
   },
   "hero": {
     "kicker": "Limit Definition Studio",
-    "title": "超越未知，定义极限",
-    "subtitle": "游戏 · 体验 · 边界",
-    "lede": "极限定义游戏工作室。我们以锋利与极致的方式，探索游戏表达的边界——把每一次未知，变成下一款作品的定义。"
+    "title": "极限定义游戏工作室",
+    "subtitle": "beyond unkwon · define limit",
+    "lede": "致力于探索游戏表达的边界，把每一次超越的未知，变成定义下一款作品的极限。"
   },
   "sections": {
-    "works": { "kicker": "Representative Works", "title": "代表作品", "en": "Shaping the edge", "seeAll": "全部作品" },
-    "team": { "kicker": "The Studio", "title": "创作团队", "en": "The people behind the edge", "seeAll": "认识团队" },
-    "news": { "kicker": "Dev Log", "title": "最新动态", "en": "Follow the edge", "seeAll": "全部动态" }
+    "works": {
+      "kicker": "Representative Works",
+      "title": "代表作品",
+      "en": "Shaping the edge",
+      "seeAll": "全部作品"
+    },
+    "team": {
+      "kicker": "The Studio",
+      "title": "创作团队",
+      "en": "The people behind the edge",
+      "seeAll": "认识团队"
+    },
+    "news": {
+      "kicker": "Dev Log",
+      "title": "最新动态",
+      "en": "Follow the edge",
+      "seeAll": "全部动态"
+    }
   },
   "positioning": {
     "kicker": "What we do",
-    "title": "不止做游戏，\u6211\u4eec\u5728\u5b9a\u4e49\u8fb9\u754c\u3002",
+    "title": "做游戏，更是定义极限",
     "items": [
-      { "title": "独立开发", "desc": "以工作室内核，做打动自己的作品。" },
-      { "title": "极致手感", "desc": "把每一次交互都当作作品的一部分打磨。" },
-      { "title": "合作开发", "desc": "与发行、平台、同行深度共建，也承接定制。" }
+      {
+        "title": "独立游戏工作室",
+        "desc": "只做打动自己的作品"
+      },
+      {
+        "title": "致力于打磨极致手感",
+        "desc": "把每一次交互当作艺术品的创作"
+      },
+      {
+        "title": "合作开发",
+        "desc": "与发行、平台、同行深度共建，也承接定制。"
+      }
     ]
   },
   "about": {
     "heading": "关于我们",
     "kicker": "About",
-    "slogan": "超越未知，\u5b9a\u4e49\u6781\u9650\u3002",
-    "lead": "极限定义工作室（Limit Definition Studio）是一支以探索游戏表达边界为方向的小而精的创作团队。我们不追求堆砌，而是把每一个想法打磨到足够锋利——像我们的标志那样，在一道贯穿的红线里，定义作品的极限。",
+    "slogan": "超越未知，定义极限。",
+    "lead": "极限定义工作室（Limit Definition Studio）是一支以探索游戏表达边界为方向的小而精的创作团队。我们致力于把每一个想法打磨到足够锋利，就像我们的标志那样，以红色之剑，破开未知，定义极限。",
     "missionTitle": "品牌理念",
-    "mission": "未知不是阻碍，而是原材料。我们做游戏的起点，永远是某个尚未被定义的边界——然后，用作品去定义它。"
+    "mission": "超越现有游戏的未知，以我们自己的方式，去定义全新的极限"
   },
   "capabilities": {
     "kicker": "Capabilities",
     "title": "能力范围",
     "items": [
-      { "title": "游戏研发", "desc": "从概念、原型到完整制作，独立完成玩法、美术与叙事。" },
-      { "title": "合作开发", "desc": "与发行、平台、工作室联合开发，共同推进项目。" },
-      { "title": "定制 / 委托", "desc": "基于核心能力承接定制化玩法与内容开发。" }
+      {
+        "title": "游戏研发",
+        "desc": "从概念、原型到完整制作，独立完成玩法、美术与叙事。"
+      },
+      {
+        "title": "合作开发",
+        "desc": "与发行、平台、工作室联合开发，共同推进项目。"
+      },
+      {
+        "title": "定制 / 委托",
+        "desc": "基于核心能力承接定制化玩法与内容开发。"
+      }
     ]
   },
   "timeline": {
     "kicker": "历程",
     "items": [
-      { "year": "2025", "text": "工作室成立，确立\u201c超越未知，定义极限\u201d的创作方向。" },
-      { "year": "2025", "text": "首款作品《裂隙迷航》正式发布。" },
-      { "year": "2026", "text": "启动新项目《零界 Zero Boundary》，探索合作玩法。" }
+      {
+        "year": "2026",
+        "text": "工作室成立，确立“超越未知，定义极限”的创作方向。"
+      },
+      {
+        "year": "2026",
+        "text": "启动新项目《悲剧演化》，探索关于肉鸽游戏的全新体验。"
+      }
     ]
   },
   "team": [
-    { "name": "林屿", "role": "Founder / Director", "bio": "负责创意方向与叙事，相信\u201c规则越少，手感越锐利\u201d。" },
-    { "name": "赤砚", "role": "Art / Tech Artist", "bio": "黑白秘境的美术奠基者，用克制的色彩讲\u201c极限\u201d。" },
-    { "name": "万衡", "role": "Lead Programmer", "bio": "把每个玩法打磨到刀刃般的响应与手感。" },
-    { "name": "沉白", "role": "Game Designer", "bio": "专注规则与系统设计，喜欢把复杂收敛为简洁。" }
+    {
+      "name": "季闲",
+      "role": "工作室创始人 · 统筹策划 · 主程序",
+      "bio": "创意方向，细节打磨，客户端开发。“只有超越自己，才能定义新的极限”"
+    },
+    {
+      "name": "布朗尼蛋糕",
+      "role": "技术美术 · 特效",
+      "bio": "学生、内容创作者。喜欢探索游戏开发、计算机技术以及技术写作，尤其对计算机图形很感兴趣，2023 年开始在b站创作有关内容，2026年开始主导成信大的图形学课程重构和教材编写，并在 TDS 游戏开发社团内建立图形组，目的是广泛传播爱好（传教）以及培养更多人的领域兴趣和能力。曾与朋友尝试投顶会研究但是被reject掉了，毅然选择走工程路线（暂时）"
+    },
+    {
+      "name": "DelayNoMore",
+      "role": "3D美术 · 动画师 · 文案策划",
+      "bio": ""
+    },
+    {
+      "name": "小号",
+      "role": "音频 · 音频策划",
+      "bio": ""
+    },
+    {
+      "name": "木白青争",
+      "role": "2D美术 · 原画",
+      "bio": ""
+    }
   ],
   "contact": {
     "kicker": "Contact",
     "title": "联系 / 合作",
     "en": "Let's shape the edge together",
     "lead": "无论是商务、媒体还是试玩交流，欢迎与我们联系。",
-    "email": "business@limitdefinition.studio",
+    "email": "2670500191@qq.com",
     "socials": [
-      { "label": "Bilibili", "handle": "@LimitDefinition", "url": "#" },
-      { "label": "Weibo", "handle": "@极限定义工作室", "url": "#" },
-      { "label": "X / Twitter", "handle": "@LimitDefStudio", "url": "#" },
-      { "label": "Twitch", "handle": "@LimitDefinition", "url": "#" }
+      {
+        "label": "Bilibili",
+        "handle": "@神秘男子季闲",
+        "url": " https://b23.tv/ANKSflh"
+      },
+      {
+        "label": "抖音",
+        "handle": "@极限定义游戏工作室",
+        "url": " https://v.douyin.com/eKPb-6Q9OHU/ 4@9.com :0pm"
+      },
+      {
+        "label": "小红书",
+        "handle": "@极限定义游戏工作室",
+        "url": "https://xhslink.cn/o/8XsWfNeD7XJ"
+      }
     ],
     "formNote": "给我们留言",
-    "types": ["商务合作", "媒体交流", "加入我们", "其他"]
+    "types": [
+      "商务合作",
+      "媒体交流",
+      "加入我们",
+      "其他"
+    ]
   },
   "footer": {
     "philosophy": "超越未知，定义极限",
-    "note": "极限定义游戏工作室 — Limit Definition Studio"
+    "note": "极限定义游戏工作室 — Limit Definition Studio",
+    "email": "2670500191@qq.com",
+    "emailNote": "商务 / 媒体合作"
   }
 }

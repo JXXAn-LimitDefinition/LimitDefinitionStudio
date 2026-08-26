@@ -135,6 +135,7 @@
     h += `<div class="sec-title">页脚</div>`;
     h += field('哲学标语', 'site.footer.philosophy', s.footer.philosophy);
     h += field('备注', 'site.footer.note', s.footer.note);
+    h += `<div class="row c2">${field('联系邮箱', 'site.footer.email', s.footer.email, { hint: '页脚“联系”下方显示的邮箱。' })}${field('联系说明', 'site.footer.emailNote', s.footer.emailNote)}</div>`;
 
     $('#panel-content').innerHTML = h;
   }

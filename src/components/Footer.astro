@@ -3,6 +3,8 @@ import { B } from '../lib/base';
 import site from '../data/site.json';
 const year = new Date().getFullYear();
 const foot = site.footer;;
+const footEmail = foot.email || 'business@limitdefinition.studio';
+const footEmailNote = foot.emailNote || '商务 / 媒体合作';
 const nav = [
   { href: '/works', label: '作品' },
   { href: '/about', label: '关于' },
@@ -31,8 +33,8 @@ const nav = [
       <div class="footer-contact">
         <span class="kicker footer-kicker">联系</span>
         <ul>
-          <li><a href="mailto:business@limitdefinition.studio">business@limitdefinition.studio</a></li>
-          <li><span class="muted">商务 / 媒体合作</span></li>
+          <li><a href={"mailto:" + footEmail}>{footEmail}</a></li>
+          <li><span class="muted">{footEmailNote}</span></li>
         </ul>
       </div>
     </div>

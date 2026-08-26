@@ -36,8 +36,6 @@ const {
     <div class="hero-visual" data-reveal>
       <div class="hero-mark">
         <img src={B('/logo.jpg')} alt="极限定义工作室图标" class="hero-logo" />
-        <span class="axis axis-x" aria-hidden="true"></span>
-        <span class="axis axis-y" aria-hidden="true"></span>
       </div>
     </div>
   </div>
@@ -141,26 +139,6 @@ const {
     object-fit: contain;
     filter: drop-shadow(0 0 40px color-mix(in srgb, var(--c-accent) 18%, transparent));
     border-radius: 14px;
-  }
-
-  .axis {
-    position: absolute;
-    background: var(--c-accent);
-    opacity: 0.65;
-  }
-
-  .axis-x {
-    left: -6%;
-    right: -6%;
-    top: 50%;
-    height: 2px;
-  }
-
-  .axis-y {
-    top: -6%;
-    bottom: -6%;
-    left: 50%;
-    width: 2px;
   }
 
   @media (max-width: 860px) {
