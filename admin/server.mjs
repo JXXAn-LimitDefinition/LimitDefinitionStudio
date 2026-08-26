@@ -196,8 +196,13 @@ function readState() {
   let presets = [];
   try { presets = (JSON.parse(fs.readFileSync(PRESETS_JSON, 'utf8')).presets) || []; } catch { presets = []; }
   const pubLog = readJson(PUBLISH_LOG, []);
-  const works = listContent(WORKS_DIR).map((w) => ({ ...w, data: { ...w.data, _kind: 'work' } }));
-  const news = listContent(NEWS_DIR).map((n) => ({ ...n, data: { ...n.data, _kind: 'news' } }));
+  const works = listContent(WORKS_DIR)
+    .map((w) => ({ ...w, data: { ...w.data, _kind: 'work' } }))
+    .sort((a, b) => (Number(a.data.order) || 0) - (Number(b.data.order) || 0));
+  const news = listContent(NEWS_DIR)
+    .map((n) => ({ ...n, data: { ...n.data, _kind: 'news' } }))
+    .sort((a, b) => (Number(a.data.order) || 0) - (Number(b.data.order) || 0)
+      || (new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()));
   return {
     site, theme, presets, works, news, publishLog: pubLog,
     repo: REPO,

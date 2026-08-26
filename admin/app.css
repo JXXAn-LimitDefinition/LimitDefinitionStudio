@@ -86,6 +86,8 @@ a { color: var(--e-text-soft); }
 .item-title { font-weight: 600; flex: 1; }
 .item-badge { font-size: 12px; color: var(--e-warn); border: 1px solid var(--e-warn); border-radius: 4px; padding: 1px 6px; }
 .item-actions { display: flex; gap: 6px; }
+.item-order { flex-shrink: 0; font-size: 12px; color: var(--e-muted); background: var(--e-bg-2); border: 1px solid var(--e-border); border-radius: 4px; padding: 1px 7px; min-width: 26px; text-align: center; }
+.item-actions .btn[disabled] { opacity: .4; cursor: not-allowed; }
 .item-body { border-top: 1px solid var(--e-border); padding: 14px; }
 .item-body .inner { display: grid; gap: 12px; }
 

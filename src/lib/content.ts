@@ -24,6 +24,7 @@ export interface NewsData {
   tags: string[];
   cover?: string;
   draft: boolean;
+  order: number;
 }
 
 export interface WorkEntry {
@@ -99,8 +100,9 @@ export function getNews(): NewsEntry[] {
           tags: Array.isArray(fm.tags) ? (fm.tags as string[]) : [],
           cover: fm.cover ? String(fm.cover) : undefined,
           draft: Boolean(fm.draft),
+          order: Number(fm.order ?? 0),
         },
       };
     })
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    .sort((a, b) => (a.data.order - b.data.order) || (b.data.pubDate.valueOf() - a.data.pubDate.valueOf()));
 }

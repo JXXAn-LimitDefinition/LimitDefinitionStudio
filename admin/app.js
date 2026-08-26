@@ -11,6 +11,9 @@
   let S = null; // 全局状态：site / theme / works / news / deletedWorkIds / deletedNewsIds
   let PIN_OK = false;
   let previewTouched = false;
+  // 记录当前展开的项目 id（用 id 而非下标，重排后下标会变），重渲染后恢复展开状态
+  const expandedWorkIds = new Set();
+  const expandedNewsIds = new Set();
 
   /* ---------- 路径读写 helper ---------- */
   function segs(path) {
@@ -191,11 +194,14 @@
     items.forEach((w, i) => {
       const d = w.data || {};
       const isDraft = !!d.draft;
-      h += `<div class="item" data-item="${i}">
+      h += `<div class="item" data-kind="work" data-item="${i}">
         <div class="item-head" data-toggle="${i}">
           <span class="item-title">${esc(d.title || w.id)}</span>
+          <span class="item-order" title="当前排序位置">#${i + 1}</span>
           ${isDraft ? '<span class="item-badge">草稿</span>' : ''}
           <span class="item-actions">
+            <button class="btn tiny" data-move-work="${i}" data-dir="-1" title="上移（提升排序）" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn tiny" data-move-work="${i}" data-dir="1" title="下移（降低排序）" ${i === items.length - 1 ? 'disabled' : ''}>↓</button>
             <button class="btn tiny danger" data-del-work="${i}">删除</button>
             <button class="btn tiny" data-toggle="${i}">展开/收起</button>
           </span>
@@ -218,6 +224,7 @@
       </div>`;
     });
     $('#panel-works').innerHTML = h;
+    restoreExpanded('work');
   }
 
   function renderNews() {
@@ -228,11 +235,14 @@
     items.forEach((n, i) => {
       const d = n.data || {};
       const isDraft = !!d.draft;
-      h += `<div class="item" data-item="${i}">
+      h += `<div class="item" data-kind="news" data-item="${i}">
         <div class="item-head" data-toggle="${i}">
           <span class="item-title">${esc(d.title || n.id)}</span>
+          <span class="item-order" title="当前排序位置">#${i + 1}</span>
           ${isDraft ? '<span class="item-badge">草稿</span>' : ''}
           <span class="item-actions">
+            <button class="btn tiny" data-move-news="${i}" data-dir="-1" title="上移（提升排序）" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn tiny" data-move-news="${i}" data-dir="1" title="下移（降低排序）" ${i === items.length - 1 ? 'disabled' : ''}>↓</button>
             <button class="btn tiny danger" data-del-news="${i}">删除</button>
             <button class="btn tiny" data-toggle="${i}">展开/收起</button>
           </span>
@@ -249,6 +259,7 @@
       </div>`;
     });
     $('#panel-news').innerHTML = h;
+    restoreExpanded('news');
   }
 
   /* ---------- 设置面板 ---------- */
@@ -293,11 +304,15 @@
 
   function makeBody() {
     collect();
+    // order = 数组位置 + 1：编辑器里显示的顺序就是网站/预览的顺序。
+    // 这样“上移/下移”即可重排，无需手填数字。
+    const works = S.works.map((w, i) => ({ id: w.id, data: { ...w.data, order: i + 1 }, body: w.body }));
+    const news = S.news.map((n, i) => ({ id: n.id, data: { ...n.data, order: i + 1 }, body: n.body }));
     return {
       site: S.site,
       theme: S.theme,
-      works: S.works.map((w) => ({ id: w.id, data: w.data, body: w.body })),
-      news: S.news.map((n) => ({ id: n.id, data: n.data, body: n.body })),
+      works,
+      news,
       deletedWorkIds: S.deletedWorkIds || [],
       deletedNewsIds: S.deletedNewsIds || [],
     };
@@ -488,8 +503,24 @@
       const delNews = t.closest('[data-del-news]');
       if (delNews) { removeNews(Number(delNews.dataset.delNews)); return; }
 
+      const mvWork = t.closest('[data-move-work]');
+      if (mvWork) { moveItem('work', Number(mvWork.dataset.moveWork), Number(mvWork.dataset.dir)); return; }
+      const mvNews = t.closest('[data-move-news]');
+      if (mvNews) { moveItem('news', Number(mvNews.dataset.moveNews), Number(mvNews.dataset.dir)); return; }
+
       const toggle = t.closest('[data-toggle]');
-      if (toggle) { const b = toggle.closest('.item').querySelector('.item-body'); b.classList.toggle('hidden'); return; }
+      if (toggle) {
+        const el = toggle.closest('.item');
+        const idx = Number(el.dataset.item);
+        const isWork = el.dataset.kind === 'work';
+        const arr = isWork ? S.works : S.news;
+        const set = isWork ? expandedWorkIds : expandedNewsIds;
+        const body = el.querySelector('.item-body');
+        const nowOpen = body.classList.toggle('hidden') === false;
+        const id = arr[idx] && arr[idx].id;
+        if (id) { if (nowOpen) set.add(id); else set.delete(id); }
+        return;
+      }
 
       const rb = t.closest('[data-rollback]');
       if (rb) { doRollback(rb.dataset.rollback); return; }
@@ -558,6 +589,31 @@
     S.deletedNewsIds.push(n.id);
     S.news.splice(i, 1);
     renderNews();
+  }
+
+  // 上移/下移：交换相邻两项，重新渲染，并保存（order 由 makeBody 按位置自动编号）
+  function moveItem(kind, i, dir) {
+    const arr = kind === 'work' ? S.works : S.news;
+    const j = i + dir;
+    if (!Array.isArray(arr) || j < 0 || j >= arr.length) return;
+    collect(); // 先收集当前面板里输入的改动，避免重排后丢失
+    const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    if (kind === 'work') renderWorks(); else renderNews();
+    doSave(); // 保存并刷新预览，让顺序立刻反映到预览
+  }
+
+  // 重渲染后，恢复之前在展开状态的项目（用 id 匹配，重排后下标已变）
+  function restoreExpanded(kind) {
+    const sel = kind === 'work' ? '#panel-works' : '#panel-news';
+    const set = kind === 'work' ? expandedWorkIds : expandedNewsIds;
+    const arr = kind === 'work' ? S.works : S.news;
+    if (!set.size) return;
+    arr.forEach((it, i) => {
+      if (set.has(it.id)) {
+        const body = $(`${sel} .item[data-item="${i}"] .item-body`);
+        if (body) body.classList.remove('hidden');
+      }
+    });
   }
 
   function renderAll() {
